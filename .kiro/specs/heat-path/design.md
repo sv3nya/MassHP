@@ -187,7 +187,7 @@ Pipeline (pure, ordered):
 Every `ChainStep` carries `sourceUrl` and `verifiedAsOf` copied from the owning
 policy file.
 
-_Requirements: 2.1–2.9, 3.x, 5.2._
+_Requirements: 2.1–2.9, 3.1–3.4, 5.2._
 
 ### `cliff.ts`
 
@@ -217,7 +217,7 @@ yields "no action needed" — when one may already apply, its script tells the
 user to call the utility to confirm. The municipal-light-plant case still
 includes the Winter Moratorium.
 
-_Requirements: 4.1–4.4, 2.6._
+_Requirements: 4.1–4.5, 2.6._
 
 ### Bill check logic
 
@@ -267,7 +267,7 @@ compliance constraints above.
   reference line and above-cliff callouts.
 - **BillCheck** — rate-code entry; shows the hedged flag when raised.
 
-_Requirements: 1.x, 3.x, 4.x, 5.x, 6.x, 7.x._
+_Requirements: 1.1–1.6, 3.1–3.4, 4.1–4.5, 5.1–5.4, 6.1–6.3, 7.1–7.5, 8.7–8.10._
 
 ### i18n (`src/i18n/`)
 
@@ -294,7 +294,7 @@ _Requirements: 1.x, 3.x, 4.x, 5.x, 6.x, 7.x._
   Generated Spanish is reviewed by a Spanish-speaking reviewer before release,
   not trusted blindly.
 
-_Requirements: cross-cutting (i18n-only strings), 7.x, 8.1–8.6._
+_Requirements: cross-cutting (i18n-only strings), 7.1–7.5, 8.1–8.10._
 
 ## Data Models
 
@@ -365,7 +365,7 @@ files' current values.
 | Requirement | Design element |
 |-------------|----------------|
 | 1 Screener | Screener.tsx, no-persistence state, 360px/44px rules |
-| 2 Engine | evaluate.ts pipeline, loadPolicies.ts, types.ts, P1–P8 |
+| 2 Engine | evaluate.ts pipeline, loadPolicies.ts, types.ts, P1–P8, P10 |
 | 3 Unlock map | evaluate steps, UnlockMap.tsx |
 | 4 Protections | Protections logic + Protections.tsx, P10 |
 | 5 Cliff | cliff.ts + CliffChart.tsx |

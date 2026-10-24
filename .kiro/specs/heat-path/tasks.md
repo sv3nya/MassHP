@@ -68,7 +68,7 @@ contract is frozen:
   - Keep both functions pure: no `Date.now()`, `fetch`, globals, or randomness;
     `today` and `policies` are parameters.
   - Emit only i18n keys declared in milestone C; add any new key to `en.json`.
-  - _Requirements: 2.1–2.9, 3.1–3.4, 4.1–4.4, 5.1–5.4, 6.1–6.3._
+  - _Requirements: 2.1–2.9, 3.1–3.4, 4.1–4.5, 5.1–5.4, 6.1–6.3._
 
 - [ ] 3. Property tests P1–P10
   - In `tests/properties/`, implement the ten invariants with fast-check using
@@ -79,7 +79,7 @@ contract is frozen:
     P10 Protections never silent.
   - If any property fails: STOP, show the shrunk counterexample, and say whether
     the code or the requirement is wrong. NEVER edit a property to make it pass.
-  - _Requirements: 2.2–2.9, 4.3, 6.3._
+  - _Requirements: 2.2–2.9, 4.4, 6.3._
 
 - [ ] 4. Fixed-date tests
   - In `tests/dates/`, test the Winter Moratorium window with fixed `today`
@@ -113,7 +113,8 @@ mismatch to the designer rather than shipping a non-compliant mock.
       "automatic", or "no action needed"
 - [ ] work at 360px wide, with ≥44px tap targets and no hover-only UI
 - [ ] end with one clear next step in warm, ~6th-grade-level language
-- [ ] pull all text from `en.json` keys (no literals in components)
+- [ ] show the English/Spanish language toggle (English default)
+- [ ] pull all text from `src/i18n/` keys (no literals in components)
 
 - [ ] 5. Screener UI
   - Build `src/ui/Screener.tsx`: one question per screen, required fields then
@@ -123,7 +124,8 @@ mismatch to the designer rather than shipping a non-compliant mock.
     with you?"), used to disambiguate the all-adults-65+ protection.
   - The `utility` question offers only National Grid, municipal light plant,
     and not sure.
-  - _Requirements: 1.1–1.5; cross-cutting (i18n, audience)._
+  - _Requirements: 1.1–1.6; 8.7–8.8 (toggle present, answers survive switch);
+    cross-cutting (i18n, audience)._
 
 - [ ] 6. Unlock map UI
   - Build `src/ui/UnlockMap.tsx`: render `ChainResult.steps` in dependency order
@@ -136,7 +138,7 @@ mismatch to the designer rather than shipping a non-compliant mock.
 - [ ] 7. Protection checker UI
   - Build `src/ui/Protections.tsx`: render each protection with its "what to
     say" script; never show "no action needed"; always surface the Heatline.
-  - _Requirements: 4.1–4.4._
+  - _Requirements: 4.1–4.5._
 
 - [ ] 8. Cliff chart UI
   - Build `src/ui/CliffChart.tsx` with Recharts from `cliff.ts` data: energy
@@ -158,7 +160,8 @@ mismatch to the designer rather than shipping a non-compliant mock.
     disclaimer, shows source + "verified as of" per program, shows dollar
     figures as ranges labeled "estimate", and ends with one clear next step in
     warm ~6th-grade language.
-  - _Requirements: 7.1–7.5; 2.8 (soft-error boundary)._
+  - _Requirements: 7.1–7.5; 2.8 (soft-error boundary); 8.7 (toggle on result
+    screens)._
 
 - [ ] 11. Spanish localization (build-time)
   - Add a build script that generates `src/i18n/es.json` from `en.json` before
