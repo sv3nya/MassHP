@@ -1,8 +1,8 @@
 import {
-  Bar,
-  BarChart,
+  Area,
+  AreaChart,
   CartesianGrid,
-  Cell,
+  ReferenceDot,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -25,26 +25,29 @@ function usdShort(value: number): string {
 }
 
 /**
- * Cliff view (Requirement 5). The policy files carry no "estimated yearly
- * energy cost" curve, so — per the cliff.ts design note — this charts the real
- * policy thresholds for the household's size: each FPL band upper limit as a
- * bar, the 60% SMI cliff as a reference line, and the household's own income
- * as a reference line ("You"). Everything comes from the pure `cliffData`
- * producer; all strings come from i18n; colors are design tokens.
+ * Cliff view (Requirement 5.1). Plots the estimated yearly energy-assistance
+ * value for this household size against income, marks the 60% SMI cliff line,
+ * and marks the household's own income. The value steps down to zero above the
+ * cliff — the visual "cliff". All data comes from the pure `cliffData`
+ * producer (policy-driven); all strings come from i18n; colors are tokens.
+ * Dollar figures are estimates and labeled as such (R7.4).
  */
 export function CliffChart({ household, policies }: CliffChartProps) {
-  const { limit60Smi, householdIncome, aboveCliff, markers } = cliffData(
+  const { limit60Smi, householdIncome, aboveCliff, data } = cliffData(
     household,
     policies,
   )
 
-  // One bar per FPL band threshold, labeled via i18n. The smi_60 band is the
-  // cliff line itself and is highlighted.
-  const data = markers.map((m) => ({
-    band: t(m.labelKey),
-    value: m.value,
-    isCliff: m.id === 'smi_60',
-  }))
+  // The household's estimated value, for the "You are here" marker: the sample
+  // closest to their income.
+  const hereValue =
+    data.reduce<(typeof data)[number] | null>((closest, d) => {
+      if (closest === null) return d
+      return Math.abs(d.income - householdIncome) <
+        Math.abs(closest.income - householdIncome)
+        ? d
+        : closest
+    }, null)?.estimatedValue ?? 0
 
   return (
     <section className="rounded-2xl border border-hairline bg-card p-6 shadow-sm">
@@ -61,13 +64,30 @@ export function CliffChart({ household, policies }: CliffChartProps) {
         aria-label={t('cliff.chartAriaLabel')}
       >
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart
+          <AreaChart
             data={data}
             margin={{ top: 8, right: 8, bottom: 4, left: 0 }}
           >
+            <defs>
+              <linearGradient id="cliffFill" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="0%"
+                  stopColor="var(--color-brand)"
+                  stopOpacity={0.35}
+                />
+                <stop
+                  offset="100%"
+                  stopColor="var(--color-brand)"
+                  stopOpacity={0.02}
+                />
+              </linearGradient>
+            </defs>
             <CartesianGrid stroke="var(--color-hairline)" vertical={false} />
             <XAxis
-              dataKey="band"
+              dataKey="income"
+              type="number"
+              domain={['dataMin', 'dataMax']}
+              tickFormatter={usdShort}
               tick={{ fill: 'var(--color-muted-2)', fontSize: 12 }}
               stroke="var(--color-hairline)"
             />
@@ -79,28 +99,28 @@ export function CliffChart({ household, policies }: CliffChartProps) {
             />
             <Tooltip
               formatter={(value) => [
-                `$${Number(value).toLocaleString('en-US')}`,
-                t('cliff.axis.income'),
+                `$${Number(value).toLocaleString('en-US')} (${t('cliff.estimateLabel')})`,
+                t('cliff.axis.value'),
               ]}
+              labelFormatter={(label) =>
+                `${t('cliff.axis.income')}: $${Number(label).toLocaleString('en-US')}`
+              }
               contentStyle={{
                 borderRadius: 12,
                 border: '1px solid var(--color-hairline)',
                 fontSize: 13,
               }}
             />
-            <Bar dataKey="value" isAnimationActive={false} radius={[4, 4, 0, 0]}>
-              {data.map((d) => (
-                <Cell
-                  key={d.band}
-                  fill={
-                    d.isCliff ? 'var(--color-ink)' : 'var(--color-brand)'
-                  }
-                  fillOpacity={d.isCliff ? 1 : 0.55}
-                />
-              ))}
-            </Bar>
+            <Area
+              type="stepAfter"
+              dataKey="estimatedValue"
+              stroke="var(--color-brand)"
+              strokeWidth={2}
+              fill="url(#cliffFill)"
+              isAnimationActive={false}
+            />
             <ReferenceLine
-              y={limit60Smi}
+              x={limit60Smi}
               stroke="var(--color-ink)"
               strokeDasharray="4 4"
               label={{
@@ -110,18 +130,21 @@ export function CliffChart({ household, policies }: CliffChartProps) {
                 fontSize: 12,
               }}
             />
-            <ReferenceLine
-              y={householdIncome}
-              stroke="var(--color-success)"
+            <ReferenceDot
+              x={householdIncome}
+              y={hereValue}
+              r={5}
+              fill="var(--color-success)"
+              stroke="var(--color-card)"
               strokeWidth={2}
               label={{
                 value: t('cliff.youAreHereLabel'),
-                position: 'insideBottomRight',
+                position: 'top',
                 fill: 'var(--color-success)',
                 fontSize: 12,
               }}
             />
-          </BarChart>
+          </AreaChart>
         </ResponsiveContainer>
       </div>
 

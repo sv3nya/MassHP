@@ -5,11 +5,10 @@ import { policies } from '../../src/rules/policies'
 import type { Household } from '../../src/rules/types'
 
 /**
- * Property-based tests for the pure cliff-data producer. These restore the
- * cliff coverage that was dropped when the remote `evaluate.test.ts` (which
- * asserted a now-rejected `.data`/`estimatedValue` series) was removed during
- * the merge. They assert the LOCAL cliff contract: ascending FPL-band markers,
- * a correct 60% SMI line, and the aboveCliff boundary.
+ * Property-based tests for the pure cliff-data producer (Requirement 5.1).
+ * The cliff series is "estimated yearly energy help vs income" for the
+ * household's size: the HEAP grant for each income's FPL band, stepping to
+ * zero above the 60% SMI cliff.
  *
  * Per project rules: a failing property means the code (or a requirement) is
  * wrong — never weaken the property to make it pass.
@@ -29,31 +28,55 @@ function household(patch: Partial<Household> = {}): Household {
   }
 }
 
-describe('cliffData — markers', () => {
-  it('FPL band markers are non-decreasing (thresholds rise with the band)', () => {
+describe('cliffData — series shape', () => {
+  it('samples are ascending by income', () => {
     fc.assert(
       fc.property(fc.integer({ min: 1, max: 17 }), (size) => {
-        const { markers } = cliffData(household({ size }), policies)
-        for (let i = 1; i < markers.length; i++) {
-          expect(markers[i].value).toBeGreaterThanOrEqual(markers[i - 1].value)
+        const { data } = cliffData(household({ size }), policies)
+        for (let i = 1; i < data.length; i++) {
+          expect(data[i].income).toBeGreaterThanOrEqual(data[i - 1].income)
         }
       }),
     )
   })
 
-  it('the top marker is the 60% SMI band', () => {
+  it('estimated value is non-increasing as income rises (the cliff)', () => {
     fc.assert(
       fc.property(fc.integer({ min: 1, max: 17 }), (size) => {
-        const { markers } = cliffData(household({ size }), policies)
-        if (markers.length > 0) {
-          expect(markers[markers.length - 1].id).toBe('smi_60')
+        const { data } = cliffData(household({ size }), policies)
+        for (let i = 1; i < data.length; i++) {
+          expect(data[i].estimatedValue).toBeLessThanOrEqual(
+            data[i - 1].estimatedValue,
+          )
+        }
+      }),
+    )
+  })
+
+  it('every point above the cliff has zero estimated value', () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 1, max: 17 }), (size) => {
+        const { data } = cliffData(household({ size }), policies)
+        for (const d of data) {
+          if (d.aboveCliff) expect(d.estimatedValue).toBe(0)
+        }
+      }),
+    )
+  })
+
+  it('aboveCliff flag matches the 60% SMI line at every sample', () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 1, max: 17 }), (size) => {
+        const r = cliffData(household({ size }), policies)
+        for (const d of r.data) {
+          expect(d.aboveCliff).toBe(d.income > r.limit60Smi)
         }
       }),
     )
   })
 })
 
-describe('cliffData — cliff boundary', () => {
+describe('cliffData — household position', () => {
   it('aboveCliff is true exactly when income exceeds the 60% SMI line', () => {
     fc.assert(
       fc.property(
