@@ -1,4 +1,4 @@
-# Design — Heat Path (MHP) MVP
+# Design Document
 
 ## Overview
 
@@ -251,8 +251,8 @@ The UI's visual layout is designed in Figma and used as the reference for the
 ### UI components (`src/ui/`)
 
 All are mobile-first (works at 360px, ≥44px tap targets, no hover-only UI) and
-pull every string from `en.json`. They follow the Figma layout within the
-compliance constraints above.
+pull every string from `src/i18n/` (the active locale, `en.json` or `es.json`).
+They follow the Figma layout within the compliance constraints above.
 
 - **Screener** — steps through required fields one per screen; protection
   questions are an optional, skippable section. Holds answers in component
@@ -317,36 +317,91 @@ them and the engine reads only through the typed `Policies` object.
   validates inputs; the engine treats them defensively and never throws on
   valid-typed but unusual values (covered by property tests).
 
+## Correctness Properties
+
+These are the canonical invariants `evaluate` must satisfy, verified by the
+fast-check property tests P1–P10 (Task 4). They hold for every
+`(household, today, policies)`.
+
+### Property 1: Determinism
+
+For any `(household, today, policies)`, two calls to `evaluate` return deeply
+equal results.
+
+**Validates: Requirements 2.9**
+
+### Property 2: No clock/global dependence
+
+Output depends only on inputs: varying wall-clock time (not `today`) never
+changes output.
+
+**Validates: Requirements 2.9**
+
+### Property 3: Dependency order
+
+`steps` always appear in canonical order (HEAP → discount → AMP → Mass Save);
+AMP never precedes the discount, etc.
+
+**Validates: Requirements 2.2**
+
+### Property 4: Unlock soundness
+
+No step is `likely` unless every id in its `unlockedBy` is actually satisfied
+by the household/upstream steps.
+
+**Validates: Requirements 2.2, 2.3**
+
+### Property 5: Cliff monotonicity
+
+Holding size fixed, raising income never moves a below-cliff income-gated step
+from `not_likely` to `likely` (eligibility doesn't improve as you get richer).
+
+**Validates: Requirements 2.3, 2.5**
+
+### Property 6: Pending ⇒ ask_provider
+
+If the utility's discount tier is pending, the discount step status is always
+`ask_provider` and never shows an estimate.
+
+**Validates: Requirements 2.4**
+
+### Property 7: Municipal light plant
+
+For `municipal_light_plant`, IOU discount/AMP/Mass Save are never `likely`, but
+the Winter Moratorium protection is always evaluated.
+
+**Validates: Requirements 2.6**
+
+### Property 8: Provenance
+
+Every `ChainStep` (steps, protections, aboveCliff) has a non-empty `sourceUrl`
+and `verifiedAsOf`.
+
+**Validates: Requirements 2.7, 7.3**
+
+### Property 9: No-amount hedging
+
+Whenever `billCheckFlag.onStandardRate` is true, no dollar amount appears in
+the retroactive message.
+
+**Validates: Requirements 6.3**
+
+### Property 10: Protections never silent
+
+No protection result is ever "no action needed"; HEAP-last-winter still yields
+a call-to-confirm step.
+
+**Validates: Requirements 4.4**
+
 ## Testing Strategy
 
-Tasks 1–4 must pass `npx vitest run` before any UI task begins. Rules-core
-tests use fixture `Policies` objects so they never depend on the real policy
-files' current values.
+Engine tasks 1–5 must pass `npx vitest run` before any UI task begins.
+Rules-core tests use fixture `Policies` objects so they never depend on the
+real policy files' current values.
 
-### Property tests P1–P10 (proposed — please confirm/correct)
+### Property tests (`tests/properties/`)
 
-1. **P1 Determinism.** For any `(household, today, policies)`, two calls to
-   `evaluate` return deeply equal results.
-2. **P2 No clock/global dependence.** Output depends only on inputs: varying
-   wall-clock time (not `today`) never changes output.
-3. **P3 Dependency order.** `steps` always appear in canonical order
-   (HEAP → discount → AMP → Mass Save); AMP never precedes the discount, etc.
-4. **P4 Unlock soundness.** No step is `likely` unless every id in its
-   `unlockedBy` is actually satisfied by the household/upstream steps.
-5. **P5 Cliff monotonicity.** Holding size fixed, raising income never moves a
-   below-cliff income-gated step from `not_likely` to `likely` (eligibility
-   doesn't improve as you get richer).
-6. **P6 Pending ⇒ ask_provider.** If the utility's discount tier is pending, the
-   discount step status is always `ask_provider` and never shows an estimate.
-7. **P7 Municipal light plant.** For `municipal_light_plant`, IOU discount/AMP/
-   Mass Save are never `likely`, but the Winter Moratorium protection is always
-   evaluated.
-8. **P8 Provenance.** Every `ChainStep` (steps, protections, aboveCliff) has a
-   non-empty `sourceUrl` and `verifiedAsOf`.
-9. **P9 No-amount hedging.** Whenever `billCheckFlag.onStandardRate` is true, no
-   dollar amount appears in the retroactive message.
-10. **P10 Protections never silent.** No protection result is ever "no action
-    needed"; HEAP-last-winter still yields a call-to-confirm step.
+- Implement the ten Correctness Properties (P1–P10) above with fast-check.
 
 ### Fixed-date tests (`tests/dates/`)
 
@@ -365,13 +420,13 @@ files' current values.
 | Requirement | Design element |
 |-------------|----------------|
 | 1 Screener | Screener.tsx, no-persistence state, 360px/44px rules |
-| 2 Engine | evaluate.ts pipeline, loadPolicies.ts, types.ts, P1–P8, P10 |
+| 2 Engine | evaluate.ts pipeline, loadPolicies.ts, types.ts, P1–P8 |
 | 3 Unlock map | evaluate steps, UnlockMap.tsx |
 | 4 Protections | Protections logic + Protections.tsx, P10 |
 | 5 Cliff | cliff.ts + CliffChart.tsx |
 | 6 Bill check | Bill check logic + BillCheck.tsx, P9 |
-| 7 Result layout | ResultLayout.tsx, i18n, policy-sourced Heatline |
-| 8 Spanish localization | i18n build-time es.json generation + locale selector |
+| 7 Result layout | ResultLayout.tsx, i18n, policy-sourced Heatline, P8 |
+| 8 Spanish localization | i18n build-time es.json generation + language toggle |
 
 ## Decisions and Open Questions
 

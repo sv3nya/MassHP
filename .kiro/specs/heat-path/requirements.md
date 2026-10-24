@@ -20,9 +20,10 @@ utilities decide eligibility.
 
 ### Scope
 
-- **In scope:** the single phone-parent user; the six features below; a pure
-  rules engine `evaluate()`; cliff data via `cliff.ts`; all text via i18n in
-  English and Spanish.
+- **In scope:** the single phone-parent user; the features below (screener,
+  rules engine, unlock map, protection checker, cliff view, bill check, result
+  layout, Spanish localization); a pure rules engine `evaluate()`; cliff data
+  via `cliff.ts`; all text via i18n in English and Spanish.
 - **Out of scope (separate/later):** accounts, persistence, advocate mode, any
   network calls.
 
