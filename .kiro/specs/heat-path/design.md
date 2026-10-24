@@ -2,7 +2,8 @@
 
 ## Overview
 
-Heat Path is a client-only, phone-first React app. A pure rules engine reads
+Heat Path is a client-only, phone-first web app built with Vite + React in
+TypeScript. A pure rules engine reads
 human-verified policy JSON and a `Household` input and returns a `ChainResult`
 describing the household's chain of linked energy programs, their shutoff
 protections, the above-cliff fallbacks, and the 60% SMI cliff data. The UI
@@ -56,7 +57,8 @@ src/ui/
   ResultLayout.tsx        Shared frame: disclaimer + Heatline footer
 
 src/i18n/
-  en.json                 ALL user-facing strings
+  en.json                 ALL user-facing strings (source of truth)
+  es.json                 Spanish, generated from en.json at build time
 
 tests/
   properties/             fast-check property tests P1–P10
@@ -267,14 +269,27 @@ compliance constraints above.
 
 _Requirements: 1.x, 3.x, 4.x, 5.x, 6.x, 7.x._
 
-### i18n (`src/i18n/en.json`)
+### i18n (`src/i18n/`)
 
-- Flat/namespaced key → string map. Components reference keys only.
+- `en.json` is the source of truth: a flat/namespaced key → string map.
+  Components reference keys only.
 - Holds hedged phrasing, scripts, disclaimer, and labels — but NOT policy
   numbers, URLs, dates, or the Heatline number (those come from policies at
   render time and are interpolated into strings).
+- **Spanish (`es.json`) is generated from `en.json` at build time.** A build
+  script (run before `vite build`) produces one Spanish entry per English key
+  and writes `es.json`, which is committed as a reviewable artifact so its copy
+  can be checked against the compliance rules before release. No runtime
+  translation and no network calls.
+- A small locale selector picks the active file. Lookups fall back to the
+  English string when a key is missing from `es.json`, never a raw key or
+  missing-text placeholder.
+- The compliance constraints apply to both locales: the Spanish copy must
+  preserve hedged phrasing and avoid the equivalents of the banned words.
+  Generated Spanish is reviewed by a Spanish-speaking reviewer before release,
+  not trusted blindly.
 
-_Requirements: cross-cutting (i18n-only strings), 7.x._
+_Requirements: cross-cutting (i18n-only strings), 7.x, 8.1–8.6._
 
 ## Data Models
 
@@ -351,6 +366,7 @@ files' current values.
 | 5 Cliff | cliff.ts + CliffChart.tsx |
 | 6 Bill check | Bill check logic + BillCheck.tsx, P9 |
 | 7 Result layout | ResultLayout.tsx, i18n, policy-sourced Heatline |
+| 8 Spanish localization | i18n build-time es.json generation + locale selector |
 
 ## Decisions and Open Questions
 

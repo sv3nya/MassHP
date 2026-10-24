@@ -16,3 +16,9 @@ mode can call it unchanged later.
 
 Heat Path is a screener, not an eligibility decision. Local agencies and
 utilities decide eligibility.
+
+Heat Path is a web app built with Vite + React in TypeScript; everything runs
+in the browser. It ships in English and Spanish: English (`src/i18n/en.json`)
+is the source of truth, and Spanish (`src/i18n/es.json`) is generated from it
+at build time and committed for compliance review. No runtime/network
+translation.

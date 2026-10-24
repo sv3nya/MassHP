@@ -159,3 +159,17 @@ mismatch to the designer rather than shipping a non-compliant mock.
     figures as ranges labeled "estimate", and ends with one clear next step in
     warm ~6th-grade language.
   - _Requirements: 7.1–7.5; 2.8 (soft-error boundary)._
+
+- [ ] 11. Spanish localization (build-time)
+  - Add a build script that generates `src/i18n/es.json` from `en.json` before
+    `vite build`, producing one Spanish entry per English key.
+  - Commit `es.json` as a reviewable artifact; a Spanish-speaking reviewer must
+    check its copy against the compliance rules (hedged phrasing; no equivalent
+    of "you qualify", "guaranteed", "approved", "automatic", "no action
+    needed") before release.
+  - No runtime translation and no network calls — generation happens only at
+    build time.
+  - Add a locale selector so the UI renders from the active locale file, with
+    English fallback when a key is missing from `es.json`.
+  - Depends on: `en.json` keys being reasonably stable (milestone C + Task 2).
+  - _Requirements: 8.1–8.6._
