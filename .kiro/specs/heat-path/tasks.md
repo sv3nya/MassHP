@@ -119,6 +119,10 @@ mismatch to the designer rather than shipping a non-compliant mock.
   - Build `src/ui/Screener.tsx`: one question per screen, required fields then
     an optional/skippable protection section; answers in component state only
     (no persistence, logging, or network). Produces a `Household` object.
+  - Include the required `anyoneUnder18` question ("Does anyone under 18 live
+    with you?"), used to disambiguate the all-adults-65+ protection.
+  - The `utility` question offers only National Grid, municipal light plant,
+    and not sure.
   - _Requirements: 1.1–1.5; cross-cutting (i18n, audience)._
 
 - [ ] 6. Unlock map UI

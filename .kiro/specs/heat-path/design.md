@@ -83,8 +83,7 @@ The core contract. These mirror the agreed data shapes.
 
 ```ts
 export type Utility =
-  | "eversource" | "national_grid" | "unitil" | "liberty"
-  | "berkshire_gas" | "municipal_light_plant" | "not_sure";
+  | "national_grid" | "municipal_light_plant" | "not_sure";
 
 export type HeatingFuel = "gas" | "electric" | "oil" | "propane" | "other";
 
@@ -100,6 +99,7 @@ export interface Household {
   benefits: Benefit[];
   behindOnBills: boolean;
   heapLastWinter: "yes" | "no" | "not_sure";
+  anyoneUnder18: boolean;       // distinguishes the two 65+ protections
   infantUnder12mo?: boolean;
   allAdults65Plus?: boolean;
   seriousIllness?: boolean;
@@ -207,7 +207,7 @@ whether the Winter Moratorium window is active:
 | Winter Moratorium              | `today` within season window (policy)    |
 | Infant under 12 months         | `household.infantUnder12mo === true`     |
 | Serious illness                | `household.seriousIllness === true`      |
-| All adults 65+                 | `household.allAdults65Plus === true`     |
+| All adults 65+ (no minors)     | `allAdults65Plus === true` AND `anyoneUnder18 === false` |
 | Prior-winter HEAP presumption  | `household.heapLastWinter === "yes"`     |
 
 Each protection step carries a "what to say" script key. No protection ever

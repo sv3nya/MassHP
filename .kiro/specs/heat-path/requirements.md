@@ -51,7 +51,11 @@ overwhelmed.
 
 1. WHEN the screener starts THEN the system SHALL collect the required
    Household fields: `size`, `grossAnnualIncome`, `utility`, `heatingFuel`,
-   `benefits`, `behindOnBills`, and `heapLastWinter`.
+   `benefits`, `behindOnBills`, `heapLastWinter`, and `anyoneUnder18`
+   ("Does anyone under 18 live with you?").
+1a. WHEN the screener presents `utility` THEN the only options SHALL be
+   National Grid (`national_grid`), municipal light plant
+   (`municipal_light_plant`), and not sure (`not_sure`).
 2. WHEN the screener presents the optional protection questions
    (`infantUnder12mo`, `allAdults65Plus`, `seriousIllness`, `rateCode`) THEN
    the system SHALL allow the user to skip them and still reach results.
@@ -128,6 +132,9 @@ shutoff protections may cover me and exactly what to say, so that I can act.
    Moratorium, infant-under-12-months, serious-illness, all-adults-65+, and the
    prior-winter HEAP hardship presumption using values from
    `protections.json` and `seasons.json`.
+1a. WHEN evaluating the all-adults-65+ protection THEN the system SHALL treat it
+   as applicable only when `allAdults65Plus === true` AND `anyoneUnder18 ===
+   false`, since a household with a minor present is not an all-65+ household.
 2. WHEN a protection may apply THEN the system SHALL show a "what to say"
    script for contacting the utility.
 3. WHEN a protection may already apply (e.g. HEAP last winter) THEN the system
