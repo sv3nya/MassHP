@@ -10,6 +10,7 @@ type UtilityStepProps = {
   initialValue?: Utility | null
   onNext?: (utility: Utility) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 /**
@@ -22,6 +23,7 @@ export function UtilityStep({
   initialValue = null,
   onNext,
   onBack,
+  onHome,
 }: UtilityStepProps) {
   const [value, setValue] = useState<Utility | null>(initialValue)
 
@@ -46,6 +48,7 @@ export function UtilityStep({
       description={t('screening.utility.description')}
       nextDisabled={value === null}
       onBack={onBack}
+      onHome={onHome}
       onNext={() => value !== null && onNext?.(value)}
     >
       <ChoiceList

@@ -10,6 +10,7 @@ type FuelStepProps = {
   initialValue?: HeatingFuel | null
   onNext?: (fuel: HeatingFuel) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 /**
@@ -22,6 +23,7 @@ export function FuelStep({
   initialValue = null,
   onNext,
   onBack,
+  onHome,
 }: FuelStepProps) {
   const [value, setValue] = useState<HeatingFuel | null>(initialValue)
 
@@ -41,6 +43,7 @@ export function FuelStep({
       description={t('screening.fuel.description')}
       nextDisabled={value === null}
       onBack={onBack}
+      onHome={onHome}
       onNext={() => value !== null && onNext?.(value)}
     >
       <ChoiceList

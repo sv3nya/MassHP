@@ -17,11 +17,23 @@ export function UnlockMap({ steps }: UnlockMapProps) {
         {t('result.chainHeading')}
       </h2>
       <p className="mt-1 text-sm text-muted-2">{t('result.chainIntro')}</p>
-      <div className="mt-4 flex flex-col gap-4">
-        {steps.map((step) => (
-          <StepCard key={step.programId} step={step} />
+      {/* Connected chain: a vertical rail links the numbered steps in order. */}
+      <ol className="relative mt-4 flex flex-col gap-4">
+        <span
+          className="absolute left-4 top-4 bottom-4 w-px bg-hairline"
+          aria-hidden="true"
+        />
+        {steps.map((step, i) => (
+          <li key={step.programId} className="relative flex gap-3">
+            <span className="z-10 mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-sm font-bold text-card">
+              {i + 1}
+            </span>
+            <div className="flex-1">
+              <StepCard step={step} />
+            </div>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   )
 }

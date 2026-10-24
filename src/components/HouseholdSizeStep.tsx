@@ -15,6 +15,7 @@ type HouseholdSizeStepProps = {
   totalSteps?: number
   initialSize?: number
   onNext?: (size: number) => void
+  onHome?: () => void
 }
 
 /**
@@ -26,6 +27,7 @@ export function HouseholdSizeStep({
   totalSteps = 6,
   initialSize = 1,
   onNext,
+  onHome,
 }: HouseholdSizeStepProps) {
   const [size, setSize] = useState(initialSize)
 
@@ -35,6 +37,7 @@ export function HouseholdSizeStep({
       totalSteps={totalSteps}
       title={t('screening.householdSize.title')}
       description={t('screening.householdSize.description')}
+      onHome={onHome}
       onNext={() => onNext?.(size)}
     >
       <label

@@ -50,6 +50,10 @@ function App() {
   }
   const back = () => setIndex((i) => i - 1)
 
+  // Home: a true browser reload, which clears all in-memory answers and
+  // starts a fresh form. Nothing is persisted, so a reload resets everything.
+  const restart = () => window.location.reload()
+
   const finish = (patch: Partial<Household>) => {
     const household = { ...EMPTY, ...answers, ...patch } as Household
     setAnswers(household)
@@ -66,11 +70,16 @@ function App() {
         result={result}
         household={answers as Household}
         policies={policies}
+        onHome={restart}
       />
     )
   }
 
-  const common = { totalSteps: TOTAL, onBack: index > 1 ? back : undefined }
+  const common = {
+    totalSteps: TOTAL,
+    onBack: index > 1 ? back : undefined,
+    onHome: restart,
+  }
 
   switch (STEPS[index - 1]) {
     case 'size':
@@ -79,6 +88,7 @@ function App() {
           step={index}
           totalSteps={TOTAL}
           initialSize={answers.size ?? 4}
+          onHome={restart}
           onNext={(size) => next({ size })}
         />
       )

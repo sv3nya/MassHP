@@ -9,6 +9,7 @@ type IncomeStepProps = {
   initialIncome?: number | null
   onNext?: (annualIncome: number) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 /** Keep only digits, parse to a whole-dollar number (or null if empty). */
@@ -35,6 +36,7 @@ export function IncomeStep({
   initialIncome = null,
   onNext,
   onBack,
+  onHome,
 }: IncomeStepProps) {
   const [income, setIncome] = useState<number | null>(initialIncome)
 
@@ -46,6 +48,7 @@ export function IncomeStep({
       description={t('screening.income.description')}
       nextDisabled={income === null}
       onBack={onBack}
+      onHome={onHome}
       onNext={() => income !== null && onNext?.(income)}
     >
       <label

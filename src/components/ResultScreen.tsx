@@ -11,6 +11,7 @@ type ResultScreenProps = {
   result: ChainResult
   household: Household
   policies: Policies
+  onHome?: () => void
 }
 
 /**
@@ -22,9 +23,10 @@ export function ResultScreen({
   result,
   household,
   policies,
+  onHome,
 }: ResultScreenProps) {
   return (
-    <ResultLayout>
+    <ResultLayout onHome={onHome}>
       <UnlockMap steps={result.steps} />
 
       <CliffChart household={household} policies={policies} />

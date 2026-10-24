@@ -9,6 +9,7 @@ type RateCodeStepProps = {
   /** Empty string clears the optional rate code. */
   onNext?: (rateCode: string) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 /**
@@ -21,6 +22,7 @@ export function RateCodeStep({
   initialValue = '',
   onNext,
   onBack,
+  onHome,
 }: RateCodeStepProps) {
   const [value, setValue] = useState(initialValue)
 
@@ -31,6 +33,7 @@ export function RateCodeStep({
       title={t('screening.rateCode.title')}
       description={t('screening.rateCode.description')}
       onBack={onBack}
+      onHome={onHome}
       onNext={() => onNext?.(value.trim())}
     >
       <label

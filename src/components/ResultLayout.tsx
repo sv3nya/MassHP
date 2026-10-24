@@ -6,6 +6,8 @@ import { Icon } from './Icon'
 
 type ResultLayoutProps = {
   children: ReactNode
+  /** Tapping the header logo starts a new form. */
+  onHome?: () => void
 }
 
 /**
@@ -14,11 +16,11 @@ type ResultLayoutProps = {
  * any result content placed inside automatically satisfies the compliance
  * footer requirements.
  */
-export function ResultLayout({ children }: ResultLayoutProps) {
+export function ResultLayout({ children, onHome }: ResultLayoutProps) {
   return (
     <div className="flex min-h-svh flex-col bg-surface font-sans text-muted">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col px-6 pt-6">
-        <AppHeader />
+        <AppHeader onHome={onHome} />
 
         <div className="mt-6">
           <h1 className="font-heading text-2xl font-extrabold text-ink">

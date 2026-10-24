@@ -11,6 +11,7 @@ type LastWinterStepProps = {
   /** Maps directly to Household.heapLastWinter. */
   onNext?: (heapLastWinter: TriState) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 /**
@@ -24,6 +25,7 @@ export function LastWinterStep({
   initialValue = null,
   onNext,
   onBack,
+  onHome,
 }: LastWinterStepProps) {
   const [value, setValue] = useState<TriState | null>(initialValue)
 
@@ -41,6 +43,7 @@ export function LastWinterStep({
       description={t('screening.lastWinter.description')}
       nextDisabled={value === null}
       onBack={onBack}
+      onHome={onHome}
       onNext={() => value !== null && onNext?.(value)}
       nextLabelKey="screening.seeResults"
     >

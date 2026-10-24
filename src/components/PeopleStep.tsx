@@ -10,6 +10,7 @@ type PeopleStepProps = {
   initialValue?: string[]
   onNext?: (flags: ProtectionFlags) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 /** The subset of Household fields this step collects. */
@@ -39,6 +40,7 @@ export function PeopleStep({
   initialValue = [],
   onNext,
   onBack,
+  onHome,
 }: PeopleStepProps) {
   const [selected, setSelected] = useState<string[]>(initialValue)
 
@@ -77,6 +79,7 @@ export function PeopleStep({
       title={t('screening.people.title')}
       description={t('screening.people.description')}
       onBack={onBack}
+      onHome={onHome}
       onNext={handleNext}
     >
       <ChoiceList

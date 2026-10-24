@@ -11,7 +11,7 @@ type StepCardProps = {
 const STATUS_STYLE: Record<StepStatus, string> = {
   likely: 'bg-success-tint text-success',
   possible: 'bg-chip text-brand',
-  ask_provider: 'bg-chip text-brand',
+  ask_provider: 'bg-surface-warm text-muted-2',
   not_likely: 'bg-hairline text-muted-2',
 }
 

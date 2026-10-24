@@ -9,6 +9,7 @@ type BehindOnBillsStepProps = {
   initialValue?: boolean | null
   onNext?: (behindOnBills: boolean) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 /**
@@ -21,6 +22,7 @@ export function BehindOnBillsStep({
   initialValue = null,
   onNext,
   onBack,
+  onHome,
 }: BehindOnBillsStepProps) {
   const [value, setValue] = useState<boolean | null>(initialValue)
 
@@ -37,6 +39,7 @@ export function BehindOnBillsStep({
       description={t('screening.behindOnBills.description')}
       nextDisabled={value === null}
       onBack={onBack}
+      onHome={onHome}
       onNext={() => value !== null && onNext?.(value)}
     >
       <ChoiceList

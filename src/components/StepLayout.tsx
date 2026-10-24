@@ -17,6 +17,8 @@ type StepLayoutProps = {
   nextLabelKey?: string
   onBack?: () => void
   onNext?: () => void
+  /** Tapping the header logo restarts the form. */
+  onHome?: () => void
 }
 
 /**
@@ -35,11 +37,12 @@ export function StepLayout({
   nextLabelKey = 'screening.next',
   onBack,
   onNext,
+  onHome,
 }: StepLayoutProps) {
   return (
     <div className="flex min-h-svh flex-col bg-surface font-sans text-muted">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col px-6 pt-6">
-        <AppHeader />
+        <AppHeader onHome={onHome} />
 
         <div className="mt-6">
           <ProgressBar current={step} total={totalSteps} />

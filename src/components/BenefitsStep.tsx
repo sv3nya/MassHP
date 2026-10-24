@@ -10,6 +10,7 @@ type BenefitsStepProps = {
   initialValue?: Benefit[]
   onNext?: (benefits: Benefit[]) => void
   onBack?: () => void
+  onHome?: () => void
 }
 
 const BENEFIT_KEYS: Benefit[] = [
@@ -35,6 +36,7 @@ export function BenefitsStep({
   initialValue = [],
   onNext,
   onBack,
+  onHome,
 }: BenefitsStepProps) {
   const [selected, setSelected] = useState<string[]>(initialValue)
 
@@ -63,6 +65,7 @@ export function BenefitsStep({
       title={t('screening.benefits.title')}
       description={t('screening.benefits.description')}
       onBack={onBack}
+      onHome={onHome}
       onNext={() =>
         onNext?.(BENEFIT_KEYS.filter((k) => selected.includes(k)))
       }
