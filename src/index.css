@@ -1,3 +1,41 @@
+@import 'tailwindcss';
+
+/*
+ * Expose the project's design tokens to Tailwind so utilities resolve to
+ * these variables (e.g. bg-accent, text-heading, border-default). Never
+ * hardcode a raw color in a component — use a token utility instead.
+ */
+@theme inline {
+  --color-text: var(--text);
+  --color-heading: var(--text-h);
+  --color-bg: var(--bg);
+  --color-border-default: var(--border);
+  --color-code-bg: var(--code-bg);
+  --color-accent: var(--accent);
+  --color-accent-bg: var(--accent-bg);
+  --color-accent-border: var(--accent-border);
+  --color-social-bg: var(--social-bg);
+
+  --font-sans: var(--sans);
+  --font-heading: var(--heading);
+  --font-mono: var(--mono);
+
+  /* Heat Path brand palette (from the design system color sheet) */
+  --color-ink: #172f42;
+  --color-muted: #52616b;
+  --color-muted-2: #596168;
+  --color-brand: #a74720;
+  --color-success: #285f43;
+  --color-surface: #f8f5ef;
+  --color-surface-warm: #f7f2ec;
+  --color-card: #ffffff;
+  --color-chip: #f6e8da;
+  --color-heatline-bg: #f6e8da;
+  --color-success-tint: #e8f1e9;
+  --color-track: #d9ddd8;
+  --color-hairline: #eceeed;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -51,15 +89,7 @@
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
 }
 
 body {

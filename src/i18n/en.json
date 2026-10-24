@@ -1,0 +1,246 @@
+{
+  "app": {
+    "name": "MASS Heat Path",
+    "homeIconLabel": "Heat Path home"
+  },
+  "language": {
+    "switcherLabel": "Change language",
+    "current": "EN"
+  },
+  "screening": {
+    "progress": {
+      "label": "Step {current} of {total}"
+    },
+    "householdSize": {
+      "title": "Your household size",
+      "description": "Count everyone who lives with you, including children.",
+      "fieldLabel": "Household size",
+      "inputAriaLabel": "Number of people in your household",
+      "optionPlus": "{count}+"
+    },
+    "income": {
+      "title": "Your household income",
+      "description": "Estimate your total yearly income before taxes, for everyone in your home. A rough number is fine.",
+      "fieldLabel": "Yearly household income (before taxes)",
+      "inputAriaLabel": "Yearly household income in dollars, before taxes",
+      "currencySymbol": "$",
+      "helper": "Not all income counts, and your local agency makes the final decision."
+    },
+    "utility": {
+      "title": "Who is your utility?",
+      "description": "This is the company that sends your gas or electric bill.",
+      "ariaLabel": "Your utility company",
+      "options": {
+        "national_grid": "National Grid",
+        "municipal_light_plant": "Town or city light plant",
+        "municipal_light_plant_hint": "A municipal electric or gas department",
+        "not_sure": "I'm not sure"
+      }
+    },
+    "fuel": {
+      "title": "How do you heat your home?",
+      "description": "Pick the main way your home stays warm in winter.",
+      "ariaLabel": "Your main heating fuel",
+      "options": {
+        "gas": "Natural gas",
+        "electric": "Electricity",
+        "oil": "Heating oil",
+        "propane": "Propane",
+        "other": "Something else"
+      }
+    },
+    "benefits": {
+      "title": "Do you get any of these?",
+      "description": "Check all that apply. Getting one of these can help unlock a utility discount.",
+      "ariaLabel": "Benefits your household receives",
+      "options": {
+        "snap": "SNAP (food stamps)",
+        "masshealth": "MassHealth",
+        "tafdc": "TAFDC cash assistance",
+        "eaedc": "EAEDC cash assistance",
+        "ssi": "SSI",
+        "public_housing": "Public or subsidized housing",
+        "heap": "HEAP fuel assistance"
+      },
+      "none": "None of these"
+    },
+    "behindOnBills": {
+      "title": "Are you behind on an energy bill?",
+      "description": "This helps us show the right shutoff protections.",
+      "ariaLabel": "Behind on an energy bill",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "rateCode": {
+      "title": "Your rate code (optional)",
+      "description": "If you have a recent bill, the rate code is a short code like R-1 or R-2. You can skip this.",
+      "fieldLabel": "Rate code",
+      "inputAriaLabel": "Your utility rate code",
+      "placeholder": "e.g. R-1",
+      "skip": "Skip this"
+    },
+    "people": {
+      "title": "Anyone in your home?",
+      "description": "Check all that apply. These can unlock extra shutoff protections.",
+      "ariaLabel": "People in your home",
+      "options": {
+        "infantUnder12mo": "A baby under 1 year old",
+        "seriousIllness": "Someone who is seriously ill",
+        "anyoneUnder18": "A child under 18",
+        "allAdults65Plus": "All adults here are 65 or older"
+      },
+      "none": "None of these"
+    },
+    "lastWinter": {
+      "title": "Last winter's fuel assistance",
+      "description": "Did your household get HEAP fuel assistance last winter?",
+      "ariaLabel": "Received HEAP last winter",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "not_sure": "I'm not sure"
+      }
+    },
+    "privacyNote": "Your answers stay on your phone. Nothing is saved or sent.",
+    "back": "Back",
+    "next": "Next",
+    "seeResults": "See my results"
+  },
+  "heatline": {
+    "prompt": "Questions? Call the Heatline:",
+    "number": "1-800-632-8175",
+    "callAriaLabel": "Call the Massachusetts Heatline at 1-800-632-8175"
+  },
+  "cliff": {
+    "title": "The income cliff",
+    "description": "This shows the estimated yearly help your household could get as income rises. Above the 60% State Median Income line, most of it drops away at once.",
+    "chartAriaLabel": "Chart of estimated yearly energy help versus household income, with the 60% State Median Income cliff marked",
+    "axis": {
+      "income": "Yearly income",
+      "value": "Estimated help"
+    },
+    "cliffLineLabel": "60% SMI cliff",
+    "youAreHereLabel": "You",
+    "estimateNote": "Dollar figures are estimates and shown as ranges elsewhere. Your local agency decides eligibility.",
+    "tooltip": {
+      "income": "Income",
+      "value": "Estimated help"
+    },
+    "aboveCliff": {
+      "heading": "Your income looks above the 60% SMI cliff",
+      "body": "The main chain may not apply, but these programs may still help. Call the Heatline to be sure.",
+      "belowBody": "You look below the cliff, so the linked chain may be available to you."
+    }
+  },
+  "abovecliff": {
+    "good_neighbor": {
+      "name": "Good Neighbor Energy Fund",
+      "next_step": "Call 2-1-1 or the Heatline to reach your local Salvation Army office."
+    },
+    "oil_relief": {
+      "name": "Middle-Income Heating Oil Relief",
+      "next_step": "Applications open in December 2026. Call the Heatline to ask how to apply."
+    },
+    "ask": "Call the Heatline to ask what help is available for your household."
+  },
+  "result": {
+    "title": "Your energy help, step by step",
+    "subtitle": "Here's what may be available to you, and where to start. This is a guide, not a decision.",
+    "disclaimer": "Heat Path is a screener, not legal advice or an eligibility decision. Your local agency and utility make the final decision on your eligibility.",
+    "chainHeading": "Your program chain",
+    "chainIntro": "These programs build on each other. Start at the top.",
+    "protectionsHeading": "Shutoff protections",
+    "protectionsIntro": "If you may be protected from a shutoff, here's what to say when you call.",
+    "aboveCliffHeading": "Help above the income cliff",
+    "sourceLink": "Official source",
+    "verifiedAsOf": "Verified as of {date}",
+    "estimateLabel": "estimate",
+    "estimateRange": "${low}–${high}",
+    "nextStepLabel": "Next step",
+    "unlockedByLabel": "Opened up by",
+    "status": {
+      "likely": "Likely available",
+      "possible": "May be available",
+      "not_likely": "Probably not now",
+      "ask_provider": "Ask your provider"
+    }
+  },
+  "program": {
+    "heap": "HEAP fuel assistance",
+    "discount": "Utility discount rate",
+    "amp": "Arrearage Management Program (debt forgiveness)",
+    "mass_save": "Mass Save income-eligible upgrades",
+    "winter_moratorium": "Winter shutoff protection",
+    "prior_winter_heap_presumption": "You may already be protected from HEAP last winter",
+    "infant": "Protection for a baby under 1",
+    "serious_illness": "Serious illness protection",
+    "elderly_with_minor": "Protection for seniors raising a child",
+    "all_residents_65_plus": "Protection when everyone is 65+",
+    "good_neighbor": "Good Neighbor Energy Fund",
+    "middle_income_oil_relief": "Middle-Income Heating Oil Relief"
+  },
+  "unlock": {
+    "income_at_or_below_60_smi": "Your income looks within the limit",
+    "heap": "HEAP fuel assistance",
+    "discount": "the utility discount",
+    "snap": "SNAP",
+    "masshealth": "MassHealth",
+    "tafdc": "TAFDC",
+    "eaedc": "EAEDC",
+    "ssi": "SSI",
+    "public_housing": "public or subsidized housing"
+  },
+  "chain": {
+    "heap": {
+      "next_step": "Apply for HEAP through your local Community Action Agency. Call the Heatline to find yours.",
+      "above_cliff": "Your income looks above the HEAP limit. Call the Heatline to check, since not all income counts."
+    },
+    "amp": {
+      "next_step": "Once you have the discount, ask your utility to enroll you in the Arrearage Management Program to work down past-due debt.",
+      "mlp": "Ask your light plant whether they offer a debt-forgiveness or payment-plan program."
+    },
+    "mass_save": {
+      "next_step": "Call Mass Save about no-cost income-eligible upgrades like insulation and heating equipment.",
+      "mlp": "Ask your light plant about their energy-efficiency programs."
+    }
+  },
+  "discount": {
+    "enroll": "Ask your utility to put you on the income-eligible discount rate.",
+    "lost": "Your income looks above the discount limit. Call the Heatline to be sure.",
+    "mlp": {
+      "ask_light_plant": "Discount rates work differently for town and city light plants. Ask your light plant what they offer."
+    },
+    "unknown": {
+      "check_bill": "Check the top of your bill for your utility's name, then ask them about the income-eligible discount rate."
+    },
+    "pending": {
+      "ask_utility": "This utility's discount is being updated. Ask your utility what rate you may qualify for."
+    }
+  },
+  "billcheck": {
+    "heading": "Check your rate",
+    "retroactive": "You may be owed money if you were on the standard rate while eligible for the discount. Contact your HEAP agency or legal aid."
+  },
+  "protect": {
+    "moratorium": {
+      "script": "Call your utility and say you want winter shutoff protection. Ask for the financial hardship form and return it within 7 days."
+    },
+    "heap_presumption": {
+      "script": "Call your utility to confirm they have you protected from getting HEAP last winter, and apply for HEAP again before January 1. Don't assume it's handled — call to confirm."
+    },
+    "infant": {
+      "script": "Call your utility and tell them a baby under 1 lives in your home. You can start by phone, then send a document (like a birth certificate) within 7 days."
+    },
+    "illness": {
+      "script": "Have a doctor, nurse practitioner, or board of health official call your utility about the serious illness, then send the certificate within 7 days."
+    },
+    "elderly_minor": {
+      "script": "Call your utility and tell them all adults in the home are 65 or older and a child lives there. Ask for shutoff protection."
+    },
+    "all_65": {
+      "script": "Call your utility and tell them everyone in the home is 65 or older. They can't shut you off without DPU approval, and you can name someone to get copies of notices."
+    }
+  }
+}
