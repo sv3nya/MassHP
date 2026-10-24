@@ -1,0 +1,25 @@
+{
+  "_note": "English is the source of truth. es.json is generated from this at build time (Task 12). Keys marked below are emitted by evaluate() (nextStepKey / messageKey) and are frozen as part of the Task 1 contract. UI-only keys are owned by the UI coder.",
+
+  "step.heap.next_step": "Apply for fuel assistance (HEAP) through your local agency.",
+  "step.discount.next_step": "Ask your utility to put you on the income-eligible discount rate.",
+  "step.amp.next_step": "Ask your utility about the Arrearage Management Program to lower past-due debt.",
+  "step.mass_save.next_step": "Ask about no-cost Mass Save energy upgrades for income-eligible homes.",
+
+  "discount.mlp.ask_light_plant": "Your community has a municipal light plant. Ask them what discount and debt help they offer.",
+  "discount.unknown.check_bill": "Check your bill or call your utility to find out who provides your service.",
+
+  "billcheck.on_standard_rate": "You may be on the standard rate when you could get a discount. You may be owed money. Contact your HEAP agency or legal aid.",
+
+  "error.data_unavailable": "This information is not available right now. Please call the Heatline at 1-800-632-8175.",
+
+  "protect.moratorium.script": "Ask the utility for winter protection, and ask for the financial hardship form. Return it within 7 days.",
+  "protect.heap_presumption.script": "Call to confirm you are protected, and apply for HEAP before January 1.",
+  "protect.infant.script": "Tell the utility a child under 12 months lives with you. You can start by phone, then send proof within 7 days.",
+  "protect.illness.script": "Ask a doctor or nurse to call the utility about the serious illness, then send the certificate within 7 days.",
+  "protect.elderly_minor.script": "Tell the utility all adults are 65 or older and a child lives with you, and ask for protection.",
+  "protect.all_65.script": "Tell the utility everyone in the home is 65 or older. They cannot shut off service without approval from the state.",
+
+  "abovecliff.good_neighbor.next_step": "Call 2-1-1 or the Heatline to reach your local Salvation Army about the Good Neighbor Energy Fund.",
+  "abovecliff.oil_relief.next_step": "If you heat with oil, ask about Middle-Income Heating Oil Relief. Applications open December 2026."
+}

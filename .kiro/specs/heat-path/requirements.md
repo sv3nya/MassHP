@@ -168,12 +168,15 @@ shutoff protections may cover me and exactly what to say, so that I can act.
 ### Acceptance Criteria
 
 1. WHEN the protection checker runs THE SYSTEM SHALL evaluate the Winter
-   Moratorium, infant-under-12-months, serious-illness, all-adults-65+, and the
-   prior-winter HEAP hardship presumption using values from `protections.json`
-   and `seasons.json`.
-2. WHEN evaluating the all-adults-65+ protection THE SYSTEM SHALL treat it as
-   applicable only when `allAdults65Plus === true` AND `anyoneUnder18 ===
-   false`, since a household with a minor present is not an all-65+ household.
+   Moratorium, infant-under-12-months, serious-illness, the two age-65+
+   protections, and the prior-winter HEAP hardship presumption using values
+   from `protections.json` and `seasons.json`.
+2. WHEN `allAdults65Plus === true` AND `anyoneUnder18 === true` THE SYSTEM SHALL
+   surface the elderly-with-minor protection (`elderly_with_minor`); WHEN
+   `allAdults65Plus === true` AND `anyoneUnder18 === false` THE SYSTEM SHALL
+   surface the all-residents-65+ protection (`all_residents_65_plus`). These
+   are two distinct protections in `protections.json` with different scripts
+   and citations, and the under-18 answer decides which one applies.
 3. WHEN a protection may apply THE SYSTEM SHALL show a "what to say" script for
    contacting the utility.
 4. WHEN a protection may already apply (e.g. HEAP last winter) THE SYSTEM SHALL

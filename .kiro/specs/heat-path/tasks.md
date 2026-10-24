@@ -91,7 +91,7 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
 
 ## Tasks
 
-- [ ] 1. Freeze the engine ↔ UI shared contract
+- [x] 1. Freeze the engine ↔ UI shared contract
   - Finalize `src/rules/types.ts`: `Household`, `ChainStep`, `ChainResult`,
     `Policies`, and the enum unions. This is the data shape the UI renders.
   - Enumerate the i18n keys `evaluate()` will emit (`nextStepKey`s per program,
@@ -101,7 +101,7 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
     begins. Changes after freeze are coordinated, not silent.
   - _Requirements: 2.1_
 
-- [ ] 2. Project setup and policy loading
+- [x] 2. Project setup and policy loading
   - Add Tailwind via `@tailwindcss/vite` (install + Vite plugin + base config).
   - Add Vitest config with `jsdom` environment; install `@testing-library/react`
     and `fast-check`.

@@ -209,8 +209,13 @@ whether the Winter Moratorium window is active:
 | Winter Moratorium              | `today` within season window (policy)    |
 | Infant under 12 months         | `household.infantUnder12mo === true`     |
 | Serious illness                | `household.seriousIllness === true`      |
-| All adults 65+ (no minors)     | `allAdults65Plus === true` AND `anyoneUnder18 === false` |
+| Elderly with minor (`elderly_with_minor`) | `allAdults65Plus === true` AND `anyoneUnder18 === true` |
+| All residents 65+ (`all_residents_65_plus`) | `allAdults65Plus === true` AND `anyoneUnder18 === false` |
 | Prior-winter HEAP presumption  | `household.heapLastWinter === "yes"`     |
+
+The under-18 answer selects which of the two age-65+ protections applies; they
+are distinct in `protections.json` (different scripts, citations, and legal
+effect — `all_residents_65_plus` requires DPU written approval before shutoff).
 
 Each protection step carries a "what to say" script key. No protection ever
 yields "no action needed" — when one may already apply, its script tells the
