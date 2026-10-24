@@ -1,4 +1,5 @@
-import { t } from '../i18n'
+import { setLocale, t } from '../i18n'
+import { useLocale } from '../i18n/useLocale'
 import { Icon } from './Icon'
 
 type AppHeaderProps = {
@@ -7,11 +8,15 @@ type AppHeaderProps = {
 }
 
 /**
- * Top bar: Heat Path wordmark with home-chip logo, plus a language switcher.
- * Tapping the logo/name starts a new form. The switcher is presentational
- * for now (EN only); wiring additional locales is a later task.
+ * Top bar: Heat Path wordmark with home-chip logo, plus a working language
+ * toggle (English ⇄ Spanish, English default). Tapping the logo/name starts a
+ * new form. The toggle switches the in-memory locale only — no persistence —
+ * and re-renders the current screen in place (Requirement 8.7, 8.8, 8.10).
  */
 export function AppHeader({ onHome }: AppHeaderProps) {
+  const locale = useLocale()
+  const nextLocale = locale === 'en' ? 'es' : 'en'
+
   return (
     <header className="flex items-center justify-between">
       <button
@@ -28,7 +33,8 @@ export function AppHeader({ onHome }: AppHeaderProps) {
 
       <button
         type="button"
-        className="flex items-center gap-1.5 rounded-xl border border-hairline bg-card px-3 py-2 text-sm font-semibold text-ink"
+        onClick={() => setLocale(nextLocale)}
+        className="flex min-h-11 items-center gap-1.5 rounded-xl border border-hairline bg-card px-3 py-2 text-sm font-semibold text-ink"
         aria-label={t('language.switcherLabel')}
       >
         <Icon name="globe" className="h-4 w-4" />

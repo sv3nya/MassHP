@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { BehindOnBillsStep } from './components/BehindOnBillsStep'
 import { BenefitsStep } from './components/BenefitsStep'
 import { FuelStep } from './components/FuelStep'
@@ -9,8 +9,9 @@ import { PeopleStep, type ProtectionFlags } from './components/PeopleStep'
 import { RateCodeStep } from './components/RateCodeStep'
 import { ResultScreen } from './components/ResultScreen'
 import { UtilityStep } from './components/UtilityStep'
+import { useLocale } from './i18n/useLocale'
 import { evaluate } from './rules/evaluate'
-import { policies } from './rules/policies'
+import { loadPolicies } from './rules/loadPolicies'
 import type { ChainResult, Household } from './rules/types'
 
 /**
@@ -39,6 +40,16 @@ const EMPTY: Partial<Household> = {
 }
 
 function App() {
+  // Subscribe to the active locale so a language toggle re-renders the whole
+  // screen (not just the header) in place, without losing answers (R8.8).
+  useLocale()
+
+  // Validate and load policy data once. If a policy file is missing a value or
+  // its provenance, loadPolicies throws a PolicyError during render and the
+  // top-level ErrorBoundary (main.tsx) shows the neutral data-unavailable
+  // screen. No defaults are substituted (R2.8).
+  const policies = useMemo(() => loadPolicies(), [])
+
   // 1-indexed position within STEPS.
   const [index, setIndex] = useState(1)
   const [answers, setAnswers] = useState<Partial<Household>>(EMPTY)

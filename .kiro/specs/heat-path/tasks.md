@@ -148,7 +148,7 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
   - Gate check: confirm `npx vitest run` is green. Engine track done.
   - _Requirements: 4.1, 7.3_
 
-- [x] 6. Screener UI
+- [ ] 6. Screener UI
   - Build `src/ui/Screener.tsx`: one question per screen, required fields then
     an optional/skippable protection section; answers in component state only
     (no persistence, logging, or network). Produces a `Household` object.
@@ -157,42 +157,30 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
   - The `utility` question offers only National Grid, municipal light plant,
     and not sure.
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 8.7, 8.8_
-  - NOTE (merge): delivered under `src/components/` (per-step components
-    `HouseholdSizeStep`…`LastWinterStep`) orchestrated by `App.tsx`, not a single
-    `src/ui/Screener.tsx`. `anyoneUnder18` and the 3-option utility list are present.
 
-- [x] 7. Unlock map UI
+- [ ] 7. Unlock map UI
   - Build `src/ui/UnlockMap.tsx`: render `ChainResult.steps` in dependency order
     with status, `unlockedBy`, next step, estimate range labeled "estimate",
     source link, and "verified as of <date>".
   - Omit the dollar figure when `estimate` is null; show `ask_provider` guidance
     instead of a claim; use only hedged language (no banned phrases).
   - _Requirements: 3.1, 3.2, 3.3, 3.4_
-  - NOTE (merge): delivered as `src/components/UnlockMap.tsx` + `StepCard.tsx`.
 
-- [x] 8. Protection checker UI
+- [ ] 8. Protection checker UI
   - Build `src/ui/Protections.tsx`: render each protection with its "what to
     say" script; never show "no action needed"; always surface the Heatline.
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
-  - NOTE (merge): delivered as `src/components/Protections.tsx`.
 
-- [x] 9. Cliff chart UI
+- [ ] 9. Cliff chart UI
   - Build `src/ui/CliffChart.tsx` with Recharts from `cliff.ts` data: energy
     cost vs income for this household size, 60% SMI reference line, above-cliff
     program callouts. Legible at 360px.
   - _Requirements: 5.1, 5.2, 5.3, 5.4_
-  - NOTE (merge): delivered as `src/components/CliffChart.tsx` (Recharts).
-    DEVIATION: the policy files carry no "energy cost vs income" curve, so the
-    chart plots the FPL-band income thresholds as bars with the 60% SMI cliff as
-    a reference line and the household's income marked, rather than a cost curve.
-    Flag to the designer to confirm this satisfies the intent of R5.
 
-- [x] 10. Bill check UI
+- [ ] 10. Bill check UI
   - Build `src/ui/BillCheck.tsx`: rate-code entry; when the bill-check flag is
     raised, show the hedged retroactive-discount message with no amount.
   - _Requirements: 6.1, 6.2, 6.3_
-  - NOTE (merge): rate-code entry lives in the screener (`RateCodeStep.tsx`);
-    the hedged no-amount notice is `src/components/BillCheckNotice.tsx`.
 
 - [ ] 11. Result layout and compliance footer
   - Build `src/ui/ResultLayout.tsx`: wrap every result screen with the screener
@@ -204,25 +192,6 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
     figures as ranges labeled "estimate", and ends with one clear next step in
     warm ~6th-grade language.
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 2.8, 8.7_
-  - STATUS (merge): PARTIALLY DONE — compliance frame is built
-    (`src/components/ResultLayout.tsx` + `ResultScreen.tsx`): disclaimer, Heatline
-    footer, per-program source + "verified as of", estimate ranges labeled
-    "estimate". OUTSTANDING — the error boundary is NOT implemented and its
-    code path is disconnected:
-    - No React error boundary exists anywhere in `src/` (no `ErrorBoundary`,
-      `componentDidCatch`, or `getDerivedStateFromError`). `main.tsx` renders
-      `<App/>` bare.
-    - `App.tsx` imports the UNVALIDATED static `policies` object from
-      `src/rules/policies.ts` (a raw `as unknown as` cast). The validating
-      `loadPolicies()` (which throws a typed `PolicyError`) is never called by
-      the app — only by `tests/loadPolicies.test.ts`.
-    - Net effect: a malformed policy file does not surface the neutral
-      "data unavailable" screen; it would crash at runtime instead. The existing
-      `error.data_unavailable` i18n key is wired to nothing.
-    - TO CLOSE: (1) switch `App.tsx`/startup from the static `policies` cast to
-      `loadPolicies()` so validation runs at load; (2) add a top-level error
-      boundary that catches `PolicyError` and renders `error.data_unavailable`
-      (with the Heatline). Keep the error soft/neutral per compliance.
 
 - [ ] 12. Spanish localization (build-time)
   - Add a build script that generates `src/i18n/es.json` from `en.json` before
@@ -241,8 +210,3 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
   - The UI renders from the active locale file, with English fallback when a key
     is missing from `es.json`.
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 8.10_
-  - STATUS (merge): NOT STARTED. No `src/i18n/es.json`, no build-time
-    generation script in `package.json`. The language switcher in
-    `src/components/AppHeader.tsx` is PRESENTATIONAL ONLY (renders an "EN"
-    button with no handler; its own comment notes locale wiring is a later
-    task). The i18n resolver reads only `en.json`.

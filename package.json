@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "i18n:es": "node scripts/generate-es.mjs",
+    "prebuild": "node scripts/generate-es.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
