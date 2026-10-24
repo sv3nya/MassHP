@@ -281,9 +281,14 @@ _Requirements: 1.x, 3.x, 4.x, 5.x, 6.x, 7.x._
   and writes `es.json`, which is committed as a reviewable artifact so its copy
   can be checked against the compliance rules before release. No runtime
   translation and no network calls.
-- A small locale selector picks the active file. Lookups fall back to the
-  English string when a key is missing from `es.json`, never a raw key or
-  missing-text placeholder.
+- A **language toggle** (English ⇄ Spanish, English default) picks the active
+  locale. The selected locale is held in in-memory app state only — no
+  `localStorage` and no persistence — so a reload returns to English. Switching
+  re-renders the current screen in place without losing in-progress answers.
+  The toggle is a standard mobile control (≥44px tap target, usable at 360px,
+  no hover-only behavior).
+- Lookups fall back to the English string when a key is missing from `es.json`,
+  never a raw key or missing-text placeholder.
 - The compliance constraints apply to both locales: the Spanish copy must
   preserve hedged phrasing and avoid the equivalents of the banned words.
   Generated Spanish is reviewed by a Spanish-speaking reviewer before release,

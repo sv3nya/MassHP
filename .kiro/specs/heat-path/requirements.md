@@ -256,3 +256,14 @@ I can understand my options in my own language.
    `es.json`.
 6. IF an English key has no corresponding Spanish entry THE SYSTEM SHALL fall
    back to the English string rather than show a missing-key placeholder.
+7. WHEN any screen renders THE SYSTEM SHALL show a language toggle for switching
+   between English and Spanish, with English as the default.
+8. WHEN the user activates the language toggle THE SYSTEM SHALL re-render the
+   current screen in the chosen language without losing the user's in-progress
+   answers or navigating away.
+9. WHEN the app loads or reloads THE SYSTEM SHALL default to English, since the
+   selected language is held in memory only and is never stored (no
+   `localStorage`, no persistence).
+10. WHEN the language toggle renders THE SYSTEM SHALL meet the mobile
+    constraints — a tap target of at least 44px, usable at 360px width, and no
+    hover-only behavior.

@@ -169,7 +169,12 @@ mismatch to the designer rather than shipping a non-compliant mock.
     needed") before release.
   - No runtime translation and no network calls — generation happens only at
     build time.
-  - Add a locale selector so the UI renders from the active locale file, with
-    English fallback when a key is missing from `es.json`.
+  - Add a language toggle (English ⇄ Spanish, English default) that switches
+    the active locale from in-memory state only — no `localStorage`, no
+    persistence; reload returns to English. Switching re-renders the current
+    screen in place without losing in-progress answers. The toggle meets the
+    mobile constraints (≥44px tap target, 360px width, no hover-only).
+  - The UI renders from the active locale file, with English fallback when a key
+    is missing from `es.json`.
   - Depends on: `en.json` keys being reasonably stable (milestone C + Task 2).
-  - _Requirements: 8.1–8.6._
+  - _Requirements: 8.1–8.10._
