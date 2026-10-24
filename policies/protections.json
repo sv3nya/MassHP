@@ -1,0 +1,224 @@
+{
+  "program_id": "shutoff_protections",
+  "name": "Massachusetts utility shutoff protections (220 CMR 25.00)",
+  "applies_to": {
+    "investor_owned_utilities": true,
+    "municipal_light_plants": true,
+    "citation": "220 CMR 25.01(1): applies to DPU-regulated gas, electric and water companies and all municipal gas and electric departments, corporations and plants"
+  },
+  "financial_hardship": {
+    "definition": "Customer is unable to pay an overdue bill AND meets income eligibility for the Low-Income Home Energy Assistance Program (HEAP), or the DPU Consumer Division finds hardship is warranted.",
+    "income_test_ref": {
+      "file": "heap-fy2027.json",
+      "key": "limit_60_smi_by_household_size"
+    },
+    "ways_to_show": [
+      "Return the utility's financial hardship form within 7 days of receiving it",
+      "A signed statement that income is within HEAP guidelines counts as presumptive evidence",
+      "Utility received HEAP payments for the customer last winter (see prior_winter_heap_presumption)"
+    ],
+    "renewal": "Hardship form renewed quarterly; renewal waived for the winter period if hardship is ongoing",
+    "renewal_waiver_season_ref": {
+      "file": "seasons.json",
+      "keys": {
+        "start": "moratorium_start",
+        "end": "moratorium_end"
+      }
+    },
+    "citation": "220 CMR 25.01(2); 25.03(2)-(4)"
+  },
+  "protections": [
+    {
+      "id": "winter_moratorium",
+      "name": "Winter shutoff protection (Winter Moratorium)",
+      "screener_trigger": "any household",
+      "conditions": [
+        "Service provides heat or runs the heating system",
+        "Service was not shut off for nonpayment before the moratorium start date",
+        "Customer has financial hardship"
+      ],
+      "requires_financial_hardship": true,
+      "requires_action": true,
+      "season_ref": {
+        "file": "seasons.json",
+        "keys": {
+          "start": "moratorium_start",
+          "end": "moratorium_end",
+          "extended_to": "moratorium_extended_to"
+        }
+      },
+      "what_to_say_key": "protect.moratorium.script",
+      "script_must_include": [
+        "Ask the utility for winter protection",
+        "Ask for the financial hardship form and return it within 7 days"
+      ],
+      "applies_to_municipal_light_plants": true,
+      "citation": "220 CMR 25.03(1)(a)(3) and (b)"
+    },
+    {
+      "id": "prior_winter_heap_presumption",
+      "name": "You may already be protected if you got HEAP last winter",
+      "screener_trigger": "got_heap_last_winter = yes",
+      "conditions": [
+        "Utility received fuel assistance payments for this customer in the prior winter"
+      ],
+      "effect": "Utility must presume financial hardship and protect the account from the moratorium start date through January 1, so the customer has time to apply for HEAP this winter. If the customer has not applied or certified hardship by January 1, normal collection may resume.",
+      "requires_financial_hardship": false,
+      "requires_action": true,
+      "action_reason": "Protection ends January 1 unless the household applies for HEAP or certifies hardship. The household should also call to confirm the utility has them on record.",
+      "season_ref": {
+        "file": "seasons.json",
+        "keys": {
+          "start": "moratorium_start",
+          "end": "heap_presumption_end"
+        }
+      },
+      "what_to_say_key": "protect.heap_presumption.script",
+      "script_must_include": [
+        "Call to confirm you are protected",
+        "Apply for HEAP before January 1"
+      ],
+      "applies_to_municipal_light_plants": true,
+      "citation": "220 CMR 25.03(3)"
+    },
+    {
+      "id": "infant",
+      "name": "Infant protection",
+      "screener_trigger": "infant_under_12_months = yes",
+      "conditions": [
+        "A child under 12 months old lives in the home",
+        "Customer has financial hardship"
+      ],
+      "requires_financial_hardship": true,
+      "requires_action": true,
+      "certification": {
+        "initial": "Can start with a phone call to the utility",
+        "documents_due_within_days": 7,
+        "accepted_documents": [
+          "Birth certificate",
+          "Letter or official document from a physician, physician assistant, nurse practitioner, local board of health, hospital, government official, Department of Transitional Assistance, clergy, or religious institution"
+        ],
+        "must_state": "Child's name, birthdate and home address",
+        "renewal": "None until the child turns 12 months"
+      },
+      "year_round": true,
+      "what_to_say_key": "protect.infant.script",
+      "applies_to_municipal_light_plants": true,
+      "citation": "220 CMR 25.03(1)(a)(2); 25.03(2)(b); 25.03(4)"
+    },
+    {
+      "id": "serious_illness",
+      "name": "Serious illness protection",
+      "screener_trigger": "serious_illness = yes",
+      "conditions": [
+        "The customer or someone in the home is seriously ill",
+        "Customer has financial hardship"
+      ],
+      "requires_financial_hardship": true,
+      "requires_action": true,
+      "certification": {
+        "initial": "A physician, physician assistant, nurse practitioner, or local board of health official must call the utility",
+        "documents_due_within_days": 7,
+        "certificate_must_state": "Ill person's name and address, the nature of the illness, and the certifier's business address and phone",
+        "renewal": "Every 3 months; every 6 months if certified as chronic"
+      },
+      "year_round": true,
+      "what_to_say_key": "protect.illness.script",
+      "applies_to_municipal_light_plants": true,
+      "citation": "220 CMR 25.03(1)(a)(1); 25.03(2)(a); 25.03(4)"
+    },
+    {
+      "id": "elderly_with_minor",
+      "name": "Protection for homes where all adults are 65+ and a child lives there",
+      "screener_trigger": "all_adults_65_plus = yes AND minor_in_home = yes",
+      "conditions": [
+        "All adults in the home are 65 or older",
+        "A minor lives in the home",
+        "Customer has financial hardship"
+      ],
+      "requires_financial_hardship": true,
+      "requires_action": true,
+      "year_round": true,
+      "what_to_say_key": "protect.elderly_minor.script",
+      "applies_to_municipal_light_plants": true,
+      "citation": "220 CMR 25.03(1)(a)(4) and (b)"
+    },
+    {
+      "id": "all_residents_65_plus",
+      "name": "Protection for homes where everyone is 65+",
+      "screener_trigger": "all_residents_65_plus = yes",
+      "conditions": [
+        "Every person living in the home is 65 or older"
+      ],
+      "effect": "The utility cannot shut off service for an unpaid bill without written approval from the DPU, and the household has a right to a DPU hearing first.",
+      "requires_financial_hardship": false,
+      "requires_action": true,
+      "action_reason": "The utility must know that all residents are 65+. Tell the utility, and consider naming a third person to receive copies of shutoff notices.",
+      "extras": {
+        "third_party_notice": "A customer 65+ can name someone to get copies of past-due and shutoff notices; that person is not responsible for the bill"
+      },
+      "year_round": true,
+      "what_to_say_key": "protect.all_65.script",
+      "applies_to_municipal_light_plants": true,
+      "citation": "220 CMR 25.05(1)-(6)"
+    }
+  ],
+  "rights_during_any_shutoff": [
+    {
+      "id": "claim_at_the_door",
+      "text": "If a utility worker comes to shut off service and someone at home claims a protection, the shutoff must be postponed 72 hours to allow time to get certification.",
+      "citation": "220 CMR 25.03(7)"
+    },
+    {
+      "id": "dispute_pending",
+      "text": "If the utility says you don't qualify for protection and you dispute it, the utility cannot shut off service while the dispute is pending. You have 7 days to contact the DPU.",
+      "citation": "220 CMR 25.03(2), (6), (8)"
+    },
+    {
+      "id": "winter_phone_notice",
+      "text": "During the winter period, the utility must call or visit heating customers no earlier than 3 days before a shutoff.",
+      "season_ref": {
+        "file": "seasons.json",
+        "keys": {
+          "start": "moratorium_start",
+          "end": "moratorium_end"
+        }
+      },
+      "citation": "220 CMR 25.03(7)"
+    },
+    {
+      "id": "no_winter_threats",
+      "text": "During the winter period, the utility may not send shutoff-threat notices to a customer who has given notice of financial hardship.",
+      "season_ref": {
+        "file": "seasons.json",
+        "keys": {
+          "start": "moratorium_start",
+          "end": "moratorium_end"
+        }
+      },
+      "citation": "220 CMR 25.03(5)"
+    },
+    {
+      "id": "shutoff_hours",
+      "text": "Shutoffs for nonpayment can only happen 8 AM to 4 PM, Monday to Thursday, and not on a holiday or the day before one.",
+      "citation": "220 CMR 25.02(3)"
+    },
+    {
+      "id": "payment_plans",
+      "text": "Every utility must offer payment plans and budget plans.",
+      "citation": "220 CMR 25.02(6)"
+    }
+  ],
+  "contacts": {
+    "heatline": "1-800-632-8175",
+    "dpu_consumer_division": {
+      "phone_in_regulation": ["1-877-886-5066", "1-617-737-2836"],
+      "status": "VERIFY current number on mass.gov; the regulation text is from 2012 and lists two different numbers in 25.02(4) and 25.05(5)"
+    }
+  },
+  "source_url": "https://www.mass.gov/files/220_cmr_25.00_2_6_09_tel._corr._5_14_12.pdf",
+  "source_document": "220 CMR 25.00, version corrected 5/14/12",
+  "verified_as_of": "2026-10-24",
+  "verified_by": "KM",
+  "notes": "Every protection has requires_action = true. Heat Path never says a household is protected with no action needed. Tenant protections when a landlord doesn't pay (220 CMR 25.04) are out of scope for this version."
+}

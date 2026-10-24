@@ -1,0 +1,35 @@
+{
+  "program_id": "seasons",
+  "heating_season": "2026-2027",
+  "dates": {
+    "heap_applications_open":       { "date": "2026-10-01", "source_ref": "heap" },
+    "heap_benefit_start":           { "date": "2026-11-01", "source_ref": "heap" },
+    "heap_benefit_end":             { "date": "2027-04-30", "source_ref": "heap" },
+
+    "hardship_forms_available_by":  { "date": "2026-11-15", "source_ref": "cmr" },
+    "moratorium_start":             { "date": "2026-11-15", "source_ref": "cmr" },
+    "moratorium_end":               { "date": "2027-03-15", "source_ref": "cmr" },
+    "moratorium_extended_to":       { "date": null,          "source_ref": "dpu_extension" },
+    "heap_presumption_end":         { "date": "2027-01-01", "source_ref": "cmr" },
+
+    "oil_relief_applications_open": { "date": null, "month": "2026-12", "source_ref": "oil_relief" },
+    "good_neighbor_open":           { "date": null, "source_ref": "good_neighbor" },
+    "good_neighbor_close":          { "date": null, "source_ref": "good_neighbor" },
+
+    "policy_data_review_by":        { "date": "2027-04-30", "source_ref": "team" }
+  },
+  "rules": {
+    "all_ranges_inclusive": true,
+    "moratorium_effective_end": "use moratorium_extended_to if not null, else moratorium_end",
+    "discount_tier_dates": "live in policies/discount-rates.json effective_from / effective_to, not here"
+  },
+  "sources": {
+    "heap":           { "url": "https://www.mass.gov/info-details/learn-about-home-energy-assistance-heap", "verified_as_of": "2026-10-24" },
+    "cmr":            { "url": "https://www.mass.gov/files/220_cmr_25.00_2_6_09_tel._corr._5_14_12.pdf", "citation": "220 CMR 25.03(1), (3)", "verified_as_of": "2026-10-24" },
+    "dpu_extension":  { "url": null, "verified_as_of": null, "notes": "Update if the DPU extends the moratorium; ask Kiro to make the edit so the Policy Watcher runs" },
+    "oil_relief":     { "url": "https://www.mass.gov/info-details/middle-income-heating-oil-relief", "verified_as_of": "2026-10-24" },
+    "good_neighbor":  { "url": "https://www.magoodneighbor.org/assistance.html", "verified_as_of": null },
+    "team":           { "notes": "After this date the app shows: 'This information may be out of date. Call the Heatline.'" }
+  },
+  "verified_by": "KM"
+}
