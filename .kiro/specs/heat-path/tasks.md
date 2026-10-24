@@ -115,7 +115,7 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
     pass.
   - _Requirements: 2.7, 2.8_
 
-- [ ] 3. Rules engine core and cliff data
+- [x] 3. Rules engine core and cliff data
   - Implement `src/rules/evaluate.ts` as the pure pipeline: cliff inputs → FPL
     bands vs 60% SMI (modeled separately) → chain build in dependency order
     (HEAP → discount → AMP → Mass Save) → utility rules (pending ⇒
@@ -129,7 +129,7 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
   - Emit only i18n keys declared in task 1; add any new key to `en.json`.
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.1, 3.2, 3.3, 3.4, 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 5.4, 6.1, 6.2, 6.3_
 
-- [ ] 4. Property tests P1–P10
+- [x] 4. Property tests P1–P10
   - In `tests/properties/`, implement the ten invariants with fast-check using
     fixture `Policies` objects (not the live policy values).
   - P1 Determinism, P2 No clock/global dependence, P3 Dependency order,
@@ -140,7 +140,7 @@ parallel. Task 12 depends on task 1 and on task 3 (stable `en.json` keys).
     the code or the requirement is wrong. NEVER edit a property to make it pass.
   - _Requirements: 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 4.4, 6.3_
 
-- [ ] 5. Fixed-date tests
+- [x] 5. Fixed-date tests
   - In `tests/dates/`, test the Winter Moratorium window with fixed `today`
     values: active inside the season window, inactive just outside both
     boundaries, using fixture seasons.
