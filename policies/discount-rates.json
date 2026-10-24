@@ -1,0 +1,83 @@
+{
+  "program_id": "discount_rate",
+  "name": "Income-Eligible Discount Rate (low-income utility discount)",
+  "applies_to": "Delivery and bill charges for customers of investor-owned (DPU-regulated) utilities",
+  "tier_to_band": {
+    "1": "fpl_100",
+    "2": "fpl_125",
+    "3": "fpl_150",
+    "4": "fpl_175",
+    "5": "fpl_200",
+    "6": "smi_60"
+  },
+  "tier_band_note": "Band names match policies/fpl-tiers.json. Each band runs from above the previous column up to and including its own column.",
+  "utilities": {
+    "national_grid": {
+      "status": "published",
+      "display_name": "National Grid",
+      "services": {
+        "electric": {
+          "rate_code_standard": "R-1",
+          "rate_code_discount": "R-2",
+          "tiers": [
+            { "tier": 1, "discount_pct": 91, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 2, "discount_pct": 69, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 3, "discount_pct": 62, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 4, "discount_pct": 56, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 5, "discount_pct": 49, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 6, "discount_pct": 32, "effective_from": "2026-11-01", "effective_to": "2027-04-30" },
+            { "tier": 6, "discount_pct": 29, "effective_from": "2027-05-01", "effective_to": null }
+          ]
+        },
+        "gas_heating": {
+          "rate_code_standard": "R-3",
+          "rate_code_discount": "R-4",
+          "rate_code_notes": "A DPU filing (D.P.U. 26-132) also lists gas Rate R-4B and R-4C. Treat any code starting with R-4 as the discount rate unless the tariff says otherwise.",
+          "tiers": [
+            { "tier": 1, "discount_pct": 87, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 2, "discount_pct": 56, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 3, "discount_pct": 46, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 4, "discount_pct": 36, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 5, "discount_pct": 26, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 6, "discount_pct": 25, "effective_from": "2026-11-01", "effective_to": "2027-04-30" },
+            { "tier": 6, "discount_pct": 20, "effective_from": "2027-05-01", "effective_to": "2027-10-31" },
+            { "tier": 6, "discount_pct": 15, "effective_from": "2027-11-01", "effective_to": null }
+          ]
+        },
+        "gas_non_heating": {
+          "rate_code_standard": "R-1",
+          "rate_code_discount": "R-2",
+          "tiers": [
+            { "tier": 1, "discount_pct": 90, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 2, "discount_pct": 65, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 3, "discount_pct": 57, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 4, "discount_pct": 49, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 5, "discount_pct": 42, "effective_from": "2026-11-01", "effective_to": null },
+            { "tier": 6, "discount_pct": 25, "effective_from": "2026-11-01", "effective_to": "2027-04-30" },
+            { "tier": 6, "discount_pct": 20, "effective_from": "2027-05-01", "effective_to": null }
+          ]
+        }
+      },
+      "how_to_enroll": {
+        "phone": "1-800-322-3223",
+        "online": "https://www.nationalgridus.com/Discount-Rate-App-MA",
+        "higher_tier_note": "To be placed in a deeper tier than tier 6, apply for HEAP through the local Community Action Agency, which verifies income and household size and assigns the tier."
+      },
+      "source_url": "https://www.nationalgrid.com/us/ma/electric/home/billing-payments/help-making-payments/payment-assistance-programs/discount-rates",
+      "verified_as_of": "2026-10-24",
+      "verified_by": "KM",
+      "notes": "Source page: 'Discount Rates are effective as of November 1, 2026. Eligibility requirements and discount rates are subject to change at any time.' Tier 6 rates step down on 5/1/27 (and gas heating again on 11/1/27)."
+    },
+    "municipal_light_plant": {
+      "status": "varies",
+      "display_name": "Municipal light plant",
+      "rules": "varies, ask your light plant",
+      "message_key": "discount.mlp.ask_light_plant"
+    },
+    "not_sure": {
+      "status": "unknown",
+      "display_name": "Not sure",
+      "message_key": "discount.unknown.check_bill"
+    }
+  }
+}

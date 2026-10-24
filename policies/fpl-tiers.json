@@ -1,0 +1,58 @@
+{
+  "program_id": "fpl_tiers",
+  "name": "HEAP Income Eligibility and Benefit Levels (FPL bands)",
+  "fiscal_year": "FY2027",
+  "band_definitions": [
+    { "band": "fpl_100",  "income_min_exclusive": null,      "income_max_inclusive": "fpl_100" },
+    { "band": "fpl_125",  "income_min_exclusive": "fpl_100", "income_max_inclusive": "fpl_125" },
+    { "band": "fpl_150",  "income_min_exclusive": "fpl_125", "income_max_inclusive": "fpl_150" },
+    { "band": "fpl_175",  "income_min_exclusive": "fpl_150", "income_max_inclusive": "fpl_175" },
+    { "band": "fpl_200",  "income_min_exclusive": "fpl_175", "income_max_inclusive": "fpl_200" },
+    { "band": "smi_60",   "income_min_exclusive": "fpl_200", "income_max_inclusive": "smi_60" }
+  ],
+  "upper_limits_by_household_size": {
+    "1":  { "fpl_100": 15960,  "fpl_125": 19950,  "fpl_150": 23940,  "fpl_175": 27930,  "fpl_200": 31920,  "smi_60": 53585 },
+    "2":  { "fpl_100": 21640,  "fpl_125": 27050,  "fpl_150": 32460,  "fpl_175": 37870,  "fpl_200": 43280,  "smi_60": 70073 },
+    "3":  { "fpl_100": 27320,  "fpl_125": 34150,  "fpl_150": 40980,  "fpl_175": 47810,  "fpl_200": 54640,  "smi_60": 86561 },
+    "4":  { "fpl_100": 33000,  "fpl_125": 41250,  "fpl_150": 49500,  "fpl_175": 57750,  "fpl_200": 66000,  "smi_60": 103049 },
+    "5":  { "fpl_100": 38680,  "fpl_125": 48350,  "fpl_150": 58020,  "fpl_175": 67690,  "fpl_200": 77360,  "smi_60": 119536 },
+    "6":  { "fpl_100": 44360,  "fpl_125": 55450,  "fpl_150": 66540,  "fpl_175": 77630,  "fpl_200": 88720,  "smi_60": 136024 },
+    "7":  { "fpl_100": 50040,  "fpl_125": 62550,  "fpl_150": 75060,  "fpl_175": 87570,  "fpl_200": 100080, "smi_60": 139116 },
+    "8":  { "fpl_100": 55720,  "fpl_125": 69650,  "fpl_150": 83580,  "fpl_175": 97510,  "fpl_200": 111440, "smi_60": 142207 },
+    "9":  { "fpl_100": 61400,  "fpl_125": 76750,  "fpl_150": 92100,  "fpl_175": 107450, "fpl_200": 122800, "smi_60": 145299 },
+    "10": { "fpl_100": 67080,  "fpl_125": 83850,  "fpl_150": 100620, "fpl_175": 117390, "fpl_200": 134160, "smi_60": 148390 },
+    "11": { "fpl_100": 72760,  "fpl_125": 90950,  "fpl_150": 109140, "fpl_175": 127330, "fpl_200": 145520, "smi_60": 151482 },
+    "12": { "fpl_100": 78440,  "fpl_125": 98050,  "fpl_150": 117660, "fpl_175": 137270, "fpl_200": 154573, "smi_60": 154573 },
+    "13": { "fpl_100": 84120,  "fpl_125": 105150, "fpl_150": 126180, "fpl_175": 147210, "fpl_200": 157665, "smi_60": 157665 },
+    "14": { "fpl_100": 89800,  "fpl_125": 112250, "fpl_150": 134700, "fpl_175": 157150, "fpl_200": 160756, "smi_60": 160756 },
+    "15": { "fpl_100": 95480,  "fpl_125": 119350, "fpl_150": 143220, "fpl_175": 163848, "fpl_200": 163848, "smi_60": 163848 },
+    "16": { "fpl_100": 101160, "fpl_125": 126450, "fpl_150": 151740, "fpl_175": 166939, "fpl_200": 166939, "smi_60": 166939 },
+    "17": { "fpl_100": 106840, "fpl_125": 133550, "fpl_150": 160260, "fpl_175": 170031, "fpl_200": 170031, "smi_60": 170031 }
+  },
+  "benefit_levels_by_band": {
+    "homeowners_and_non_subsidized_tenants": {
+      "deliverable_fuel":             { "fpl_100": 1450, "fpl_125": 1276, "fpl_150": 1123, "fpl_175": 988, "fpl_200": 988, "smi_60": 870 },
+      "utility_and_heat_in_rent":     { "fpl_100": 1000, "fpl_125": 880,  "fpl_150": 774,  "fpl_175": 681, "fpl_200": 681, "smi_60": 600 },
+      "high_energy_cost_supplement":  { "fpl_100": 200,  "fpl_125": 180,  "fpl_150": 160,  "fpl_175": 140, "fpl_200": 140, "smi_60": 120 }
+    },
+    "subsidized_housing_tenants": {
+      "deliverable_fuel":             { "fpl_100": 1015, "fpl_125": 893,  "fpl_150": 786,  "fpl_175": 692, "fpl_200": 692, "smi_60": 609 },
+      "utility_and_heat_in_rent":     { "fpl_100": 700,  "fpl_125": 616,  "fpl_150": 542,  "fpl_175": 477, "fpl_200": 477, "smi_60": 420 },
+      "high_energy_cost_supplement":  { "fpl_100": 200,  "fpl_125": 180,  "fpl_150": 160,  "fpl_175": 140, "fpl_200": 140, "smi_60": 120 }
+    }
+  },
+  "hecs_thresholds_prior_year_heating_cost": {
+    "heating_oil_and_propane": 1948,
+    "kerosene": 1622,
+    "natural_gas": 1542,
+    "electricity": 1957,
+    "other": 1174
+  },
+  "deliverable_fuel_includes": ["oil", "propane", "kerosene", "other"],
+  "max_household_size_on_chart": 17,
+  "source_url": "https://www.masscap.org/eligibility-requirements-heating-assistance/",
+  "source_document": "FY2027 HEAP Income Eligibility and Benefit Levels chart",
+  "verified_as_of": "2026-10-24",
+  "verified_by": "KM",
+  "notes": "Each column is the upper income limit of its band. For large households (12+), the chart caps FPL bands at 60% SMI, so some columns are equal; keep them as printed. Benefit amounts are maximum HEAP grants and depend on funding; show as estimates only. HECS is an extra benefit when last year's heating cost was above the threshold for that fuel. Households of 18+: contact EOHLC. Not all income counts; the local agency decides."
+}

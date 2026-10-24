@@ -1,0 +1,34 @@
+{
+  "program_id": "heap",
+  "name": "Home Energy Assistance Program (HEAP, fuel assistance)",
+  "fiscal_year": "FY2027",
+  "rule": "Gross household income at or below 60% of estimated State Median Income",
+"season_ref": {
+  "file": "seasons.json",
+  "keys": {
+    "applications_open": "heap_applications_open",
+    "benefit_start": "heap_benefit_start",
+    "benefit_end": "heap_benefit_end"
+  }
+},
+  "limit_60_smi_by_household_size": {
+    "1": 53585, "2": 70073, "3": 86561, "4": 103049, "5": 119536,
+    "6": 136024, "7": 139116, "8": 142207, "9": 145299, "10": 148390, "11": 151482, "12": 154573, "13": 157665, "14": 160756, "15": 163848, "16": 166939, "17": 170031 
+  },
+  "apply": {
+    "online": "https://www.toapply.org/MassLIHEAP",
+    "agency_lookup": "https://hedfuel.azurewebsites.net/",
+    "heatline": "1-800-632-8175"
+  },
+  "documents_needed": [
+    "Photo ID for head of household",
+    "List of all household members",
+    "Heating bill info (company name, account number)",
+    "Housing info (lease or mortgage statement)",
+    "Proof of income for the 30 days before applying"
+  ],
+  "source_url": "https://www.mass.gov/info-details/learn-about-home-energy-assistance-heap",
+  "verified_as_of": "2026-10-24",
+  "verified_by": "KM",
+  "notes": "Not all income counts; local agency decides. Official page shows size 8 as '$142, 207' (typo); stored as 142207. Sizes 11+: ask agency."
+}

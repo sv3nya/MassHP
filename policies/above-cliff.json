@@ -1,0 +1,93 @@
+{
+  "program_id": "above_cliff",
+  "name": "Help above the 60% State Median Income cliff",
+  "statewide_contacts": {
+    "heatline": "1-800-632-8175",
+    "mass211": "2-1-1",
+    "source_url": "https://www.mass.gov/info-details/learn-about-home-energy-assistance-heap"
+  },
+  "programs": [
+    {
+      "id": "good_neighbor",
+      "name": "Massachusetts Good Neighbor Energy Fund",
+      "rule": "Temporary financial difficulty, cannot meet a month's energy expense, and not eligible for state or federal energy assistance",
+      "income_band": "above 60% SMI up to 80% SMI",
+      "income_limits_by_household_size": {
+        "1":  { "min": 53586,  "max": 71447 },
+        "2":  { "min": 70074,  "max": 93431 },
+        "3":  { "min": 86562,  "max": 115415 },
+        "4":  { "min": 103050, "max": 137399 },
+        "5":  { "min": 119537, "max": 159382 },
+        "6":  { "min": 136025, "max": 181366 },
+        "7":  { "min": 139117, "max": 185488 },
+        "8":  { "min": 142208, "max": 189610 },
+        "9":  { "min": 145300, "max": 193732 },
+        "10": { "min": 148391, "max": 197854 },
+        "11": { "min": 151483, "max": 201976 },
+        "12": { "min": 154574, "max": 206098 },
+        "13": { "min": 157666, "max": 210220 },
+        "14": { "min": 160757, "max": 214342 },
+        "15": { "min": 163849, "max": 218464 },
+        "16": { "min": 166940, "max": 222586 },
+        "17": { "min": 170032, "max": 226708 }
+      },
+      "eligible_fuels": "all",
+      "excludes_if": ["eligible_for_heap"],
+      "benefit_max": null,
+      "dates_known": false,
+      "season_ref": {
+        "file": "seasons.json",
+        "keys": {
+          "open": "good_neighbor_open",
+          "close": "good_neighbor_close"
+        }
+      },
+      "apply": {
+        "administered_by": "The Salvation Army (local offices)",
+        "how": "Call 2-1-1 or the Heatline to be connected to your local Salvation Army"
+      },
+      "status_if_in_band": "possible",
+      "next_step_key": "abovecliff.good_neighbor.next_step",
+      "source_url": "https://www.magoodneighbor.org/assistance.html",
+      "verified_as_of": "2026-10-24",
+      "verified_by": "KM",
+      "notes": "Source table is labeled 2025-2026, but the numbers match FY2027 (min = FY2027 60% SMI + $1; max = 80% SMI). No open/close dates published; app must not say open or closed."
+    },
+    {
+      "id": "middle_income_oil_relief",
+      "name": "Middle-Income Heating Oil Relief",
+      "rule": "Heats with #2 home heating oil; gross household income more than 60% and less than 100% of SMI; one-time benefit",
+      "income_band": "above 60% SMI, below 100% SMI",
+      "income_limits_by_household_size": {
+        "1": { "min": 53586,  "max_exclusive": 89308 },
+        "2": { "min": 70074,  "max_exclusive": 116788 },
+        "3": { "min": 86562,  "max_exclusive": 144268 },
+        "4": { "min": 103050, "max_exclusive": 171749 },
+        "5": { "min": 119537, "max_exclusive": 199227 },
+        "6": { "min": 136025, "max_exclusive": 226707 }
+      },
+      "sizes_not_listed": "7 or more: show as ask_provider and direct to the Heatline",
+      "eligible_fuels": ["oil_no2"],
+      "benefit_max": 680,
+      "benefit_is_one_time": true,
+      "season_ref": {
+        "file": "seasons.json",
+        "keys": {
+          "applications_open": "oil_relief_applications_open"
+        }
+      },
+      "apply": {
+        "how": "Applications open December 2026",
+        "notification_form": "https://www.mass.gov/forms/expanded-heating-assistance-interest-form---unpublished?auHash=0ln8szuOqw6uslsbpxUx-zaLy71EmL9mgk0oDfFQNfo",
+        "notification_form_note": "Not the application. URL contains 'unpublished'; recheck before demo."
+      },
+      "status_if_in_band": "possible",
+      "status_before_open": "possible, applications not open yet",
+      "next_step_key": "abovecliff.oil_relief.next_step",
+      "source_url": "https://www.mass.gov/info-details/middle-income-heating-oil-relief",
+      "verified_as_of": "2026-10-24",
+      "verified_by": "KM",
+      "notes": "Official table covers household sizes 1-6 only. Benefit listed once as 'Up to $680'. Overlap with Good Neighbor (60-80% SMI, oil heat) is unclear; show both as possible and let the programs decide."
+    }
+  ]
+}
