@@ -10,6 +10,9 @@ export type Utility = 'national_grid' | 'municipal_light_plant' | 'not_sure'
 
 export type HeatingFuel = 'gas' | 'electric' | 'oil' | 'propane' | 'other'
 
+/** Yes/no/not-sure answer used by the screener (e.g. heapLastWinter). */
+export type TriState = 'yes' | 'no' | 'not_sure'
+
 export type Benefit =
   | 'snap'
   | 'masshealth'
@@ -26,7 +29,7 @@ export interface Household {
   heatingFuel: HeatingFuel
   benefits: Benefit[]
   behindOnBills: boolean
-  heapLastWinter: 'yes' | 'no' | 'not_sure'
+  heapLastWinter: TriState
   // Required. Whether a person under 18 lives in the home. Distinguishes the
   // two age-65+ protections (elderly_with_minor vs all_residents_65_plus).
   anyoneUnder18: boolean
@@ -54,13 +57,19 @@ export interface ChainStep {
   requiresAction: boolean
 }
 
+/** Hedged retroactive-discount flag (never carries a dollar amount). */
+export interface BillCheckFlag {
+  onStandardRate: boolean
+  messageKey: string
+}
+
 export interface ChainResult {
   steps: ChainStep[] // dependency order
   protections: ChainStep[]
   aboveCliff: ChainStep[]
   cliff: { limit60Smi: number; householdIncome: number }
   heatline: string // from policies
-  billCheckFlag?: { onStandardRate: boolean; messageKey: string }
+  billCheckFlag?: BillCheckFlag
 }
 
 // ---------------------------------------------------------------------------

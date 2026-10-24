@@ -1,122 +1,183 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { BehindOnBillsStep } from './components/BehindOnBillsStep'
+import { BenefitsStep } from './components/BenefitsStep'
+import { FuelStep } from './components/FuelStep'
+import { HouseholdSizeStep } from './components/HouseholdSizeStep'
+import { IncomeStep } from './components/IncomeStep'
+import { LastWinterStep } from './components/LastWinterStep'
+import { PeopleStep, type ProtectionFlags } from './components/PeopleStep'
+import { RateCodeStep } from './components/RateCodeStep'
+import { ResultScreen } from './components/ResultScreen'
+import { UtilityStep } from './components/UtilityStep'
+import { evaluate } from './rules/evaluate'
+import { policies } from './rules/policies'
+import type { ChainResult, Household } from './rules/types'
+
+/**
+ * Ordered screening steps. The progress indicator derives its total from this
+ * list, so adding or removing a step keeps "Step x of y" correct.
+ */
+const STEPS = [
+  'size',
+  'income',
+  'utility',
+  'fuel',
+  'benefits',
+  'behind',
+  'people',
+  'rateCode',
+  'lastWinter',
+] as const
+
+const TOTAL = STEPS.length
+
+/** Blank screening answers. Nothing is persisted or sent. */
+const EMPTY: Partial<Household> = {
+  size: 4,
+  benefits: [],
+  anyoneUnder18: false,
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  // 1-indexed position within STEPS.
+  const [index, setIndex] = useState(1)
+  const [answers, setAnswers] = useState<Partial<Household>>(EMPTY)
+  const [result, setResult] = useState<ChainResult | null>(null)
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+  const next = (patch: Partial<Household>) => {
+    setAnswers((prev) => ({ ...prev, ...patch }))
+    setIndex((i) => i + 1)
+  }
+  const back = () => setIndex((i) => i - 1)
 
-      <div className="ticks"></div>
+  // Home: a true browser reload, which clears all in-memory answers and
+  // starts a fresh form. Nothing is persisted, so a reload resets everything.
+  const restart = () => window.location.reload()
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+  const finish = (patch: Partial<Household>) => {
+    const household = { ...EMPTY, ...answers, ...patch } as Household
+    setAnswers(household)
+    // The UI supplies the real date once; the engine stays pure.
+    const today = new Date().toISOString().slice(0, 10)
+    setResult(evaluate(household, today, policies))
+  }
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+  // Full result screen: chain, cliff, protections, above-cliff, bill check,
+  // inside the compliance frame (disclaimer + Heatline).
+  if (result) {
+    return (
+      <ResultScreen
+        result={result}
+        household={answers as Household}
+        policies={policies}
+        onHome={restart}
+      />
+    )
+  }
+
+  const common = {
+    totalSteps: TOTAL,
+    onBack: index > 1 ? back : undefined,
+    onHome: restart,
+  }
+
+  switch (STEPS[index - 1]) {
+    case 'size':
+      return (
+        <HouseholdSizeStep
+          step={index}
+          totalSteps={TOTAL}
+          initialSize={answers.size ?? 4}
+          onHome={restart}
+          onNext={(size) => next({ size })}
+        />
+      )
+    case 'income':
+      return (
+        <IncomeStep
+          step={index}
+          {...common}
+          initialIncome={answers.grossAnnualIncome ?? null}
+          onNext={(income) => next({ grossAnnualIncome: income })}
+        />
+      )
+    case 'utility':
+      return (
+        <UtilityStep
+          step={index}
+          {...common}
+          initialValue={answers.utility ?? null}
+          onNext={(utility) => next({ utility })}
+        />
+      )
+    case 'fuel':
+      return (
+        <FuelStep
+          step={index}
+          {...common}
+          initialValue={answers.heatingFuel ?? null}
+          onNext={(heatingFuel) => next({ heatingFuel })}
+        />
+      )
+    case 'benefits':
+      return (
+        <BenefitsStep
+          step={index}
+          {...common}
+          initialValue={answers.benefits ?? []}
+          onNext={(benefits) => next({ benefits })}
+        />
+      )
+    case 'behind':
+      return (
+        <BehindOnBillsStep
+          step={index}
+          {...common}
+          initialValue={answers.behindOnBills ?? null}
+          onNext={(behindOnBills) => next({ behindOnBills })}
+        />
+      )
+    case 'people':
+      return (
+        <PeopleStep
+          step={index}
+          {...common}
+          initialValue={flagsToSelected(answers)}
+          onNext={(flags) => next(flags)}
+        />
+      )
+    case 'rateCode':
+      return (
+        <RateCodeStep
+          step={index}
+          {...common}
+          initialValue={answers.rateCode ?? ''}
+          onNext={(rateCode) => next({ rateCode: rateCode || undefined })}
+        />
+      )
+    case 'lastWinter':
+      return (
+        <LastWinterStep
+          step={index}
+          {...common}
+          initialValue={answers.heapLastWinter ?? null}
+          onNext={(heapLastWinter) => finish({ heapLastWinter })}
+        />
+      )
+    default:
+      return null
+  }
+}
+
+/** Rebuild the multi-select state from stored flags when navigating back. */
+function flagsToSelected(answers: Partial<Household>): string[] {
+  const keys: (keyof ProtectionFlags)[] = [
+    'infantUnder12mo',
+    'seriousIllness',
+    'anyoneUnder18',
+    'allAdults65Plus',
+  ]
+  return keys.filter((k) => answers[k])
 }
 
 export default App

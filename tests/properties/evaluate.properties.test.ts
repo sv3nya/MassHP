@@ -74,13 +74,27 @@ describe('Correctness Properties P1–P10', () => {
     )
   })
 
-  it('P4 Unlock soundness (a likely discount is unlocked by HEAP or categorical)', () => {
+  it('P4 Unlock soundness (every unlocker of a likely discount is actually satisfied)', () => {
+    // Categorical benefits that can unlock the discount (CATEGORICAL_BENEFITS
+    // in evaluate.ts). An unlocker is sound only if it is either HEAP (and
+    // HEAP itself is likely) or a categorical benefit the household holds.
+    const categorical: Benefit[] = ['snap', 'tafdc', 'eaedc', 'ssi']
     fc.assert(
       fc.property(householdArb, dateArb, (h, today) => {
         const r = evaluate(h, today, policies)
+        const heap = r.steps.find((s) => s.programId === 'heap')!
         const discount = r.steps.find((s) => s.programId === 'discount_rate')!
-        if (discount.status === 'likely') {
-          expect(discount.unlockedBy.length).toBeGreaterThan(0)
+        if (discount.status !== 'likely') return
+        // A likely discount must list at least one unlocker...
+        expect(discount.unlockedBy.length).toBeGreaterThan(0)
+        // ...and every listed unlocker must be genuinely satisfied.
+        for (const id of discount.unlockedBy) {
+          const satisfied =
+            id === 'heap'
+              ? heap.status === 'likely'
+              : categorical.includes(id as Benefit) &&
+                h.benefits.includes(id as Benefit)
+          expect(satisfied, `unsound unlocker "${id}"`).toBe(true)
         }
       }),
     )
